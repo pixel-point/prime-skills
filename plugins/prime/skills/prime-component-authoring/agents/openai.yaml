@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prime Component Authoring"
+  short_description: "Adapt or create Prime-quality local components"
+  default_prompt: "Create this unmatched section using Prime implementation patterns."

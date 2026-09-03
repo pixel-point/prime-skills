@@ -1,0 +1,20 @@
+{
+  "name": "prime-skills",
+  "interface": {
+    "displayName": "Prime Skills"
+  },
+  "plugins": [
+    {
+      "name": "prime",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prime"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

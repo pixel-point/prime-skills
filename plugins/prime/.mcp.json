@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "primeui": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@primeuicom/mcp@latest"]
+    }
+  }
+}

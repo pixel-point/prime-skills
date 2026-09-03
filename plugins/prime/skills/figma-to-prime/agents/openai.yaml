@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma to Prime"
+  short_description: "Build Prime-quality local pages from Figma"
+  default_prompt: "Build this Figma frame in my current project using Prime."
