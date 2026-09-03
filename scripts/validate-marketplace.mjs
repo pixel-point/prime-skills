@@ -10,6 +10,16 @@ const marketplacePath = path.join(
   "plugins",
   "marketplace.json",
 );
+const claudeMarketplacePath = path.join(
+  packageRoot,
+  ".claude-plugin",
+  "marketplace.json",
+);
+const claudeManifestPath = path.join(
+  packageRoot,
+  ".claude-plugin",
+  "plugin.json",
+);
 const expectedSkills = [
   "figma-to-prime",
   "prime-component-authoring",
@@ -167,6 +177,10 @@ async function validatePlugin(entry) {
     `Plugin ${entry.name} must use a local marketplace source`,
   );
   invariant(
+    entry.source?.path === "./",
+    `Plugin ${entry.name} must use the release root as its source`,
+  );
+  invariant(
     entry.policy?.installation === "AVAILABLE",
     `Plugin ${entry.name} must be available for installation`,
   );
@@ -205,6 +219,14 @@ async function validatePlugin(entry) {
     typeof manifest.author?.name === "string" &&
       manifest.author.name.length > 0,
     `Plugin ${entry.name} requires author.name`,
+  );
+  invariant(
+    manifest.author?.email === "info@pixelpoint.io",
+    `Plugin ${entry.name} must use the Pixel Point contact email`,
+  );
+  invariant(
+    manifest.license === "MIT",
+    `Plugin ${entry.name} must declare the MIT license`,
   );
   invariant(
     typeof manifest.interface?.displayName === "string",
@@ -248,6 +270,67 @@ async function validatePlugin(entry) {
   await validateSkills(pluginRoot, manifest);
   await validateMcp(pluginRoot, manifest);
   await validateBrandAssets(pluginRoot, manifest);
+
+  return manifest;
+}
+
+async function validateClaudeCompatibility(codexManifest) {
+  const claudeMarketplace = await readJson(claudeMarketplacePath);
+  invariant(
+    claudeMarketplace.name === marketplace.name,
+    "Claude and Codex marketplaces must use the same name",
+  );
+  invariant(
+    claudeMarketplace.owner?.name === "Pixel Point",
+    "Claude marketplace owner must be Pixel Point",
+  );
+  invariant(
+    Array.isArray(claudeMarketplace.plugins) &&
+      claudeMarketplace.plugins.length === 1,
+    "Claude marketplace must contain exactly one Prime plugin",
+  );
+  invariant(
+    claudeMarketplace.plugins[0]?.name === codexManifest.name &&
+      claudeMarketplace.plugins[0]?.source === "./",
+    "Claude marketplace must point the Prime plugin at the release root",
+  );
+
+  const claudeManifest = await readJson(claudeManifestPath);
+  for (const field of [
+    "name",
+    "version",
+    "description",
+    "homepage",
+    "repository",
+    "license",
+  ]) {
+    invariant(
+      claudeManifest[field] === codexManifest[field],
+      `Claude and Codex plugin manifests must share ${field}`,
+    );
+  }
+  invariant(
+    JSON.stringify(claudeManifest.author) ===
+      JSON.stringify(codexManifest.author),
+    "Claude and Codex plugin manifests must share author metadata",
+  );
+  invariant(
+    claudeManifest.skills === "./skills/",
+    "Claude plugin must load the canonical root skills directory",
+  );
+  await validateSkills(packageRoot, claudeManifest);
+}
+
+async function validateLicense() {
+  const license = await readFile(path.join(packageRoot, "LICENSE"), "utf8");
+  invariant(
+    license.startsWith("MIT License\n"),
+    "LICENSE must contain the MIT License",
+  );
+  invariant(
+    license.includes("Copyright (c) 2026 Pixel Point"),
+    "LICENSE must identify Pixel Point as the 2026 copyright holder",
+  );
 }
 
 async function validateEvals() {
@@ -295,10 +378,14 @@ invariant(
   "Marketplace must contain plugins",
 );
 
-for (const entry of marketplace.plugins) {
-  await validatePlugin(entry);
-}
+invariant(
+  marketplace.plugins.length === 1,
+  "Marketplace must contain exactly one Prime plugin",
+);
+const codexManifest = await validatePlugin(marketplace.plugins[0]);
 
+await validateClaudeCompatibility(codexManifest);
+await validateLicense();
 await validateEvals();
 
 console.log(

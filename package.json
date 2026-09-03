@@ -2,12 +2,14 @@
   "name": "@primeuicom/skills-marketplace",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "pnpm run validate",
     "format": "prettier --write . --ignore-unknown",
     "format:check": "prettier --check . --ignore-unknown",
     "lint": "pnpm run validate",
+    "sync:manifest-version": "node ./scripts/sync-manifest-version.mjs",
     "test": "pnpm run validate",
     "typecheck": "pnpm run validate",
     "validate": "node ./scripts/validate-marketplace.mjs"

@@ -1,0 +1,17 @@
+{
+  "name": "prime-skills",
+  "owner": {
+    "name": "Pixel Point"
+  },
+  "description": "Build visually faithful local pages from Figma using Prime components and implementation rules.",
+  "metadata": {
+    "description": "Build visually faithful local pages from Figma using Prime components and implementation rules."
+  },
+  "plugins": [
+    {
+      "name": "prime",
+      "source": "./",
+      "description": "Build visually faithful local pages from Figma using Prime components and implementation rules."
+    }
+  ]
+}

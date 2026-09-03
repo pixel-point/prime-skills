@@ -1,0 +1,15 @@
+{
+  "name": "prime",
+  "version": "0.1.0+codex.20260903213837",
+  "description": "Build visually faithful local pages from Figma using Prime components and implementation rules.",
+  "author": {
+    "name": "Pixel Point",
+    "email": "info@pixelpoint.io",
+    "url": "https://github.com/pixel-point"
+  },
+  "homepage": "https://github.com/pixel-point/prime-skills",
+  "repository": "https://github.com/pixel-point/prime-skills",
+  "license": "MIT",
+  "keywords": ["prime", "primeui", "figma", "design-to-code", "frontend"],
+  "skills": "./skills/"
+}

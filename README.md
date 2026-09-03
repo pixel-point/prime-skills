@@ -1,6 +1,6 @@
 # Prime Skills
 
-![Prime](plugins/prime/assets/prime-logo.png)
+![Prime](assets/prime-logo.png)
 
 Prime Skills is the source marketplace for agent workflows that connect Figma design context, Prime components, and local frontend implementation.
 
@@ -24,6 +24,36 @@ The current private preview contains the marketplace foundation, the existing `p
 - A compatible Figma design provider connected separately when using the Figma workflow.
 
 Figma credentials are not stored in this marketplace or sent through Prime MCP.
+
+## Install
+
+The GitHub repository is currently private, so installation requires GitHub access to `pixel-point/prime-skills`.
+
+### Codex
+
+```bash
+codex plugin marketplace add https://github.com/pixel-point/prime-skills.git --ref main
+codex plugin add prime@prime-skills
+```
+
+Start a new task after installation so Codex discovers the plugin's skills and tools from a fresh context.
+
+### Claude Code
+
+```bash
+claude plugin marketplace add https://github.com/pixel-point/prime-skills.git
+claude plugin install prime@prime-skills
+```
+
+Run `/reload-plugins` or start a new Claude Code session after installation.
+
+### Agent Skills Installers
+
+```bash
+npx skills add pixel-point/prime-skills --all
+```
+
+The repository keeps the canonical skills directly under `skills/`, so compatible skill installers can discover them without interpreting either plugin manifest.
 
 ## Install From The Prime Monorepo
 
@@ -56,6 +86,20 @@ The workflow reads Figma through the separately connected design provider. It do
 
 The Prime monorepo is the only authoring source. Do not edit the publication repository independently.
 
+The release root intentionally follows the same cross-agent layout as the SiteOS plugin:
+
+```text
+.agents/plugins/marketplace.json
+.claude-plugin/marketplace.json
+.claude-plugin/plugin.json
+.codex-plugin/plugin.json
+.mcp.json
+assets/
+skills/
+```
+
+Codex and Claude Code load the same `skills/` files. There are no independently maintained host-specific copies in this marketplace.
+
 Validate the marketplace:
 
 ```bash
@@ -66,6 +110,12 @@ Synchronize Prime skills that are also bundled into exported-project agent prese
 
 ```bash
 pnpm --filter @primeuicom/agent-setup sync:prime-skills
+```
+
+After changing the Codex plugin version or local cachebuster, synchronize the Claude manifest:
+
+```bash
+pnpm --filter @primeuicom/skills-marketplace sync:manifest-version
 ```
 
 Run the relevant package tests before proposing publication.
@@ -92,4 +142,4 @@ This marketplace is under active private development. Installation contracts and
 
 ## License
 
-No public license has been selected yet. Add one before making the repository public.
+Prime Skills is available under the [MIT License](LICENSE). Developed by Pixel Point.
