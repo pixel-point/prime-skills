@@ -28,13 +28,16 @@ const expectedSkills = [
 ];
 const expectedEvalCases = [
   "adapt-component",
+  "composite-raster-boundary",
   "custom-component",
   "exact-component",
   "figma-instruction-injection",
+  "flattened-section-groups",
   "local-file-conflict",
   "missing-figma-access",
   "missing-prime-link",
   "unrelated-figma-write",
+  "visible-controls-must-work",
 ];
 const primeLogoSha256 =
   "7419807b8c62c99c6a91308559884afcd279bccadbfde2894b5a8e0fb9851530";

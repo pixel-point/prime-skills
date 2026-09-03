@@ -116,12 +116,18 @@ You may refactor where the returned props live to match local project convention
 
 Run project-appropriate local checks, such as typecheck, build, dev-server smoke, route rendering, or browser checks.
 
+Before browser acceptance, inventory visible tabs, carousel arrows, selectors, accordions, and buttons. Exercise each one and verify an observable content, position, or accessible-state change. A visually accurate but dead control is a failed implementation.
+
+Keep content and controls as semantic DOM even when the design source contains a flattened composite image. A composite image may be cropped into media-only regions, but it must not replace section copy, card structure, or visible controls. If alternate interaction content is absent, reuse known content or repeat known carousel items, preserve truthful labels and accessible state, and record the synthesized fallback.
+
 Preserve evidence:
 
 - selected candidates and why they were chosen
 - validation outcomes
 - touched local files
 - verification commands/results
+- tested affordances and observed state changes
+- synthesized states caused by incomplete source designs
 - external-planning log paths
 
 ## Diagnostics And Non-Mutation

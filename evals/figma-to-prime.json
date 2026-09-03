@@ -33,6 +33,26 @@
       ]
     },
     {
+      "id": "flattened-section-groups",
+      "prompt": "Implement this Figma landing page through Prime. Several unrelated sections are grouped inside one frame and one section is split across two top-level groups.",
+      "expectedBehavior": [
+        "Treat Figma grouping as evidence rather than authority.",
+        "Infer semantic section boundaries from headings, backgrounds, spacing, purpose, and interaction ownership.",
+        "Match and implement the recovered sections independently.",
+        "Preserve their visual spacing boundaries in browser verification."
+      ]
+    },
+    {
+      "id": "composite-raster-boundary",
+      "prompt": "Implement this Figma feature grid. The designer flattened each complete card, including its title, description, icon, and product screenshot, into a PNG.",
+      "expectedBehavior": [
+        "Do not place the complete card PNG as the card implementation.",
+        "Author card structure, text, icon, and semantics in DOM.",
+        "Crop the composite source to bounded media-only regions when no clean media asset exists.",
+        "Verify responsive layout and readable content in the browser."
+      ]
+    },
+    {
       "id": "missing-figma-access",
       "prompt": "Build https://www.figma.com/design/FILE/Example?node-id=1-2 through Prime, but the configured Figma provider cannot access it.",
       "expectedBehavior": [
@@ -76,6 +96,17 @@
       "expectedBehavior": [
         "Do not activate figma-to-prime because the request writes to Figma and has no local Prime page target.",
         "Route to the appropriate Figma authoring workflow instead."
+      ]
+    },
+    {
+      "id": "visible-controls-must-work",
+      "prompt": "Implement this Figma page. It shows tabs and carousel arrows, but only one tab state and three unique carousel cards are present in the source.",
+      "expectedBehavior": [
+        "Implement every visible tab and carousel arrow as an interactive accessible control.",
+        "Reuse known content for missing tab states and repeat known carousel items when required for movement.",
+        "Do not invent unsupported business claims for synthesized states.",
+        "Click every visible control in browser acceptance and verify observable state or position changes.",
+        "Record synthesized states in the run artifacts and final report."
       ]
     }
   ]

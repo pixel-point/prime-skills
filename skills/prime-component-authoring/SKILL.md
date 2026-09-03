@@ -53,6 +53,9 @@ Record the chosen Prime reference component IDs in the implementation report for
 - Prefer semantic tokens and shared container utilities. Use an exact local value when the design requires it, but do not scatter repeated arbitrary values; promote repetition into a clearly named local token or constant.
 - Model content and variants with typed props. Keep data separate from markup when nearby components do so.
 - Preserve exact Figma assets when available. Do not silently substitute fonts, images, icons, or illustrations.
+- Treat a composite Figma export as a source asset, not a component. Crop it to bounded media-only regions and author surrounding headings, copy, icons, cards, and controls as DOM.
+- Never preserve a dead affordance for visual similarity. Every visible tab, arrow, selector, accordion trigger, or button must use the project's interaction primitives and expose keyboard, focus, and selected/expanded state.
+- If only one interaction state exists in the source, reuse known content for the missing state or repeat known carousel items. Make the state change observable, label the fallback honestly, and record it instead of inventing product claims.
 - Build responsive behavior from content and layout constraints rather than scaling the desktop frame mechanically.
 - Split independent interactive islands and substantial visual sections instead of generating one monolithic page component.
 - Reuse existing project dependencies. Add a dependency only when the required behavior cannot be expressed cleanly with the current stack.
@@ -74,4 +77,4 @@ If a visual correction would violate accessibility, product behavior, or reposit
 
 Run change-scoped repository checks and rendered verification for every affected viewport. For a shared component adaptation, check every known consumer. For a page-local component, check the target page plus surrounding layout and navigation.
 
-Report the created or adapted files, Prime references, intentional deviations, dependencies, check results, and visual evidence. Do not describe the component as Prime-ready for registry publication; the MVP produces local project code only.
+Report the created or adapted files, Prime references, intentional deviations, synthesized interaction states, dependencies, check results, and visual evidence. Browser verification must click every visible affordance and confirm an observable state change. Do not describe the component as Prime-ready for registry publication; the MVP produces local project code only.
