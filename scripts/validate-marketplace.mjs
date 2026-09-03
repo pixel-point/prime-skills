@@ -20,6 +20,7 @@ const claudeManifestPath = path.join(
   ".claude-plugin",
   "plugin.json",
 );
+const packageJsonPath = path.join(packageRoot, "package.json");
 const expectedSkills = [
   "figma-to-prime",
   "prime-component-authoring",
@@ -383,6 +384,11 @@ invariant(
   "Marketplace must contain exactly one Prime plugin",
 );
 const codexManifest = await validatePlugin(marketplace.plugins[0]);
+const packageJson = await readJson(packageJsonPath);
+invariant(
+  String(codexManifest.version).split("+")[0] === packageJson.version,
+  "Plugin manifest base version must match package.json version",
+);
 
 await validateClaudeCompatibility(codexManifest);
 await validateLicense();

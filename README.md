@@ -12,13 +12,13 @@ The repository is currently developed inside the Prime monorepo. The standalone 
 - A local-first Figma-to-Prime workflow with `reuse`, `adapt`, and `custom` matching.
 - Prime-conformant local component authoring when no suitable registry component exists.
 
-The current private preview contains the marketplace foundation, the existing `primeui-page-builder` workflow, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. End-to-end validation against a controlled Figma frame is still required before public release.
+The current private preview contains the marketplace foundation, the existing `primeui-page-builder` workflow, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. The production contour has been exercised against a controlled Percents Figma frame through Prime candidate matching, prop validation, component delivery, local build, and desktop/mobile browser verification.
 
 ## Requirements
 
 - Node.js 22 or newer.
 - `pnpm` 10.
-- A project linked to Prime through `.primeui/project.json`.
+- A project linked to Prime through `.primeui/project.json`, or a saved Prime organization login that the CLI can use to create the binding.
 - A compatible Figma design provider connected separately when using the Figma workflow.
 
 Figma credentials are not stored in this marketplace or sent through Prime MCP.
@@ -80,6 +80,18 @@ Build this Figma frame as /pricing in my current project using Prime.
 
 The workflow reads Figma through the separately connected design provider. It does not write to Figma or create page state inside Prime Studio.
 
+When the target has no `.primeui/project.json`, the workflow uses the PrimeUI CLI setup router:
+
+```bash
+npx @primeuicom/cli setup --ai-preset codex
+```
+
+- In an empty directory, setup creates or reuses a Prime project and exports the complete Next.js starter into the current directory.
+- In an existing Next.js project, setup adds only the Prime binding and project-local agent setup; it does not replace application files.
+- In any other non-empty directory, setup stops before writing and asks the user to choose a safe target.
+
+Organization authentication is a one-time CLI prerequisite. Browser or GitHub OAuth automation is not part of the distributed plugin workflow.
+
 ## Development
 
 The Prime monorepo is the only authoring source. Do not edit the publication repository independently.
@@ -133,6 +145,30 @@ pnpm prime-skills:publish -- --push
 ```
 
 Changing repository visibility, creating a release, or submitting the plugin to the universal directory are separate release decisions.
+
+### Version and tag a release
+
+Prepare one SemVer version across `package.json`, the Codex manifest, and the Claude manifest:
+
+```bash
+pnpm --filter @primeuicom/skills-marketplace release:prepare -- 0.2.0
+```
+
+The plugin manifests retain a Codex cachebuster as build metadata, while public releases use the stable base version. Commit the prepared files and publish the subtree before tagging.
+
+Dry-run the subtree projection:
+
+```bash
+pnpm prime-skills:publish
+```
+
+After explicit publication approval, publish the standalone branch and both release tags:
+
+```bash
+pnpm prime-skills:publish -- --push --release
+```
+
+This creates `vX.Y.Z` in `pixel-point/prime-skills` and `prime-skills-vX.Y.Z` in the monorepo. The standalone tag validates the release version and marketplace, then creates the matching GitHub Release through GitHub Actions. Existing tags are rejected before publication.
 
 ## Status
 

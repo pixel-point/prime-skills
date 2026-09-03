@@ -13,11 +13,11 @@ PrimeUI supplies candidate scoring, registry metadata, component delivery, props
 
 ## Readiness
 
-1. Confirm `.primeui/project.json` exists at the exported project root.
+1. Confirm `.primeui/project.json` exists at the exported project root. If it is missing, run `npx @primeuicom/cli setup --ai-preset <agent>` only after classifying the target as an empty directory or an existing Next.js project. The setup command exports a complete starter into an empty directory and performs a non-overwriting connection for an existing Next.js project. Stop on any other non-empty target.
 2. If the MCP client starts outside the exported project, pass explicit `projectRoot` to PrimeUI MCP tools.
 3. Verify PrimeUI MCP health before planning with `npx @primeuicom/mcp@latest --health /absolute/project/path`.
 4. For local or staging Studio, set `PRIMEUI_API_BASE_URL` to the intended Studio URL before health checks or MCP calls. For production, use the linked project config unless the environment intentionally overrides it.
-5. Stop before planning or editing if readiness fails. Ask the user to connect the project, rerun PrimeUI AI setup, pass the correct `projectRoot`, or fix the API base/key.
+5. Stop before planning or editing if readiness still fails after safe setup. Ask the user to complete organization login, rerun PrimeUI AI setup, pass the correct `projectRoot`, or fix the API base/key.
 
 ## Task Intake
 

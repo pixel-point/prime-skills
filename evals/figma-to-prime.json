@@ -45,8 +45,10 @@
       "id": "missing-prime-link",
       "prompt": "Build this Figma page in the current repository through Prime, but the repository has no .primeui/project.json.",
       "expectedBehavior": [
-        "Stop before matching or local writes.",
-        "Ask the user to connect or repair the Prime project.",
+        "Classify the target as an empty directory, an existing Next.js project, or an unsafe non-empty directory.",
+        "Use PrimeUI CLI setup for an empty directory or existing Next.js project before design implementation.",
+        "Require the one-time organization login only when no saved profile is available.",
+        "Stop without writes when the directory is non-empty and is not a supported Next.js project.",
         "Do not call private Prime APIs directly."
       ]
     },

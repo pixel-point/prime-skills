@@ -1,6 +1,6 @@
 {
   "name": "prime",
-  "version": "0.1.0+codex.20260903213837",
+  "version": "0.1.0+codex.20260903230336",
   "description": "Build visually faithful local pages from Figma using Prime components and implementation rules.",
   "author": {
     "name": "Pixel Point",

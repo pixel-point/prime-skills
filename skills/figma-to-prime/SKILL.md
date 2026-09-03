@@ -20,11 +20,16 @@ Before editing local files:
 1. Parse the user-supplied Figma URL and retain its file and node identity.
 2. Load the installed Figma design-to-code guidance required by the available provider before calling its design-context tools.
 3. Confirm the provider can retrieve both structured design context and a visual reference for the selected frame.
-4. Confirm `.primeui/project.json` exists at the target project root and Prime MCP health succeeds. Pass an explicit absolute `projectRoot` when the agent started outside that project.
+4. Check for `.primeui/project.json` at the target project root.
+   - If it exists, run Prime MCP health and continue only when it succeeds.
+   - If it is missing, classify the local target before any design implementation. Run `npx @primeuicom/cli setup --ai-preset <agent>` from an empty directory or an existing Next.js project. Pass an explicit project slug, `--org`, or `--project-root` only when the default folder-derived choice is ambiguous.
+   - Empty directories receive the complete Prime Next.js export in place. Existing Next.js projects receive only the Prime binding and project-local AI setup. Any other non-empty directory must stop without writes.
+   - If organization login is missing, ask the user to complete the one-time `org bootstrap` / `org <slug> login` flow. Do not automate browser login or request GitHub OAuth.
+   - After setup, confirm `.primeui/project.json` exists and Prime MCP health succeeds. Pass an explicit absolute `projectRoot` when the agent started outside that project.
 5. Read the root and nearest nested repository instructions, inspect Git status, and identify the existing route, component, styling, token, asset, and verification conventions.
 6. Establish the target route and reference viewport. Ask one focused question only when the route, product meaning, or required interaction cannot be inferred safely.
 
-Stop before local writes if either design access or Prime readiness fails. Provide the exact missing prerequisite without substituting a screenshot-only guess or a non-Prime generation path.
+Stop before design implementation writes if either design access or Prime readiness fails. Setup may create the requested local project or binding, but do not substitute a screenshot-only guess or a non-Prime generation path.
 
 ## Normalize The Design
 
