@@ -1,6 +1,4 @@
-# Prime Skills
-
-![Prime](assets/prime-logo.png)
+# <img src="assets/prime-logo.png" alt="Prime logo" height="42" align="absbottom"> Prime Skills
 
 Prime Skills is the source marketplace for agent workflows that connect Figma design context, Prime components, and local frontend implementation.
 
