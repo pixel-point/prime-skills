@@ -24,7 +24,11 @@ type DesignBrief = {
       footer: string | null;
       layout: string | null;
     };
-    referenceViewport: {
+    renderViewport: {
+      width: number;
+      height: number;
+    };
+    canvas: {
       width: number;
       height: number;
     };
@@ -169,14 +173,13 @@ Choose based on anatomy and behavior, not a numeric score alone:
 - `adapt`: the structure and behavior fit, while styling, layout, decoration, or responsive behavior needs local changes;
 - `custom`: the structure, content model, or interaction contract differs enough that adaptation would create brittle branches or misleading semantics.
 
-## VisualComparison
+## Visual Audit
 
-`visual-comparison.md` must contain one exact-viewport result for every requested semantic section:
+Use the separate `prime-visual-parity` skill after implementation. It creates exact Figma and browser measurement manifests, aligned screenshots, overlays, diffs, a machine-owned `audit.json`, and a derived `summary.md`.
 
-| Section | Reference crop | Rendered crop | Structure | Typography | Controls/icons | Media | Spacing | Layout parity | Full visual parity |
-| ------- | -------------- | ------------- | --------- | ---------- | -------------- | ----- | ------- | ------------- | ------------------ |
+The agent must not author a manual pass table. Only `audit.json.status` may establish `layout-parity` or `full-visual-parity`. A missing runtime audit is blocking.
 
-Use `pass`, `blocking`, or `externally-blocked` for each parity result. `layout-parity` may pass with correctly shaped Prime placeholders. Full visual parity remains `blocking` while any media is `media-pending`. A successful build or interaction test cannot change a `blocking` result to `pass`. Record each correction pass and keep the final unresolved blocking list explicit.
+Keep `media-pending` replacement contracts in `DesignBrief`, then express each approved raster exclusion as a node-scoped media mask under the visual-parity measurement contract. The mask excludes pixels only; slot geometry remains blocking when incorrect.
 
 ## Artifact Location
 
@@ -185,8 +188,9 @@ Write each run under `.primeui/temp/figma-to-prime/<run-id>/`. Include:
 - `design-brief.json`;
 - `match-plan.json`;
 - `match-report.md`;
-- reference and rendered screenshots when available;
-- `visual-comparison.md`;
-- `verification.md`.
+- `measurements/figma.json` and `measurements/browser.json`;
+- reference, rendered, overlay, and diff screenshots;
+- machine-owned `audit.json` and derived `summary.md`;
+- independent `verification.md` for build, runtime, responsive, accessibility, and interaction evidence.
 
 Do not store API keys, tokens, cookies, provider configuration, or full authenticated provider responses.

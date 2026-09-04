@@ -1,7 +1,11 @@
 import { createHash } from "node:crypto";
+import { execFile as execFileCallback } from "node:child_process";
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
+
+const execFile = promisify(execFileCallback);
 
 const packageRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const marketplacePath = path.join(
@@ -24,6 +28,7 @@ const packageJsonPath = path.join(packageRoot, "package.json");
 const expectedSkills = [
   "figma-to-prime",
   "prime-component-authoring",
+  "prime-visual-parity",
   "primeui-page-builder",
 ];
 const expectedEvalCases = [
@@ -39,9 +44,13 @@ const expectedEvalCases = [
   "first-time-guided-bootstrap",
   "flattened-section-groups",
   "google-font-fallback",
+  "invalid-media-mask",
   "local-file-conflict",
+  "manual-visual-pass-rejected",
   "missing-figma-access",
+  "missing-icon-machine-audit",
   "missing-prime-link",
+  "non-converging-visual-loop",
   "raster-brand-exception",
   "root-home-project-conventions",
   "section-intent-diagnostics",
@@ -50,6 +59,7 @@ const expectedEvalCases = [
   "tailwind-token-first",
   "unrelated-figma-write",
   "visible-controls-must-work",
+  "wrong-visual-crop",
 ];
 const expectedPageBuilderEvalCases = [
   "design-section-only",
@@ -129,14 +139,26 @@ async function validateSkills(pluginRoot, manifest) {
   for (const entry of skillDirectories) {
     const skillPath = path.join(skillsRoot, entry.name, "SKILL.md");
     await assertFile(skillPath, "Skill entrypoint");
-    const skillName = readFrontmatterName(
-      await readFile(skillPath, "utf8"),
-      skillPath,
-    );
+    const skillContent = await readFile(skillPath, "utf8");
+    const skillName = readFrontmatterName(skillContent, skillPath);
     invariant(
       skillName === entry.name,
       `Skill name ${skillName} must match directory ${entry.name}`,
     );
+    invariant(
+      skillContent.split(/\r?\n/).length <= 200,
+      `Skill entrypoint must stay under 200 lines; move detail to references: ${skillPath}`,
+    );
+    for (const match of skillContent.matchAll(
+      /\]\(((?:references|scripts)\/[^)#\s]+)(?:#[^)]+)?\)/g,
+    )) {
+      const resourcePath = path.resolve(path.dirname(skillPath), match[1]);
+      invariant(
+        resourcePath.startsWith(`${path.dirname(skillPath)}${path.sep}`),
+        `Skill resource escapes its directory: ${match[1]}`,
+      );
+      await assertFile(resourcePath, "Skill resource");
+    }
   }
 }
 
@@ -189,6 +211,30 @@ async function validateBrandAssets(pluginRoot, manifest) {
   invariant(
     logoHash === primeLogoSha256,
     "Plugin logo must stay byte-identical to the Prime Studio source asset",
+  );
+}
+
+async function validateRuntime(pluginRoot) {
+  const runtimePath = path.join(
+    pluginRoot,
+    "runtime",
+    "visual-audit",
+    "cli.cjs",
+  );
+  await assertFile(runtimePath, "Visual audit runtime");
+  const runtime = await readFile(runtimePath, "utf8");
+  invariant(
+    runtime.includes("primeui visual audit error"),
+    "Visual audit runtime must contain the expected CLI entrypoint",
+  );
+  invariant(
+    !runtime.includes("[TODO:"),
+    "Visual audit runtime must not contain scaffold placeholders",
+  );
+  const { stdout } = await execFile(process.execPath, [runtimePath, "--help"]);
+  invariant(
+    stdout.includes("primeui-visual-audit --run-dir"),
+    "Visual audit runtime help command must execute successfully",
   );
 }
 
@@ -295,6 +341,7 @@ async function validatePlugin(entry) {
   await validateSkills(pluginRoot, manifest);
   await validateMcp(pluginRoot, manifest);
   await validateBrandAssets(pluginRoot, manifest);
+  await validateRuntime(pluginRoot);
 
   return manifest;
 }

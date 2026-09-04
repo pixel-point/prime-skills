@@ -14,8 +14,9 @@ The repository is developed inside the Prime monorepo and published to the publi
 - Deterministic section-intent matching for full-page and single-section Figma work.
 - Replaceable Prime media placeholders for unapproved Figma raster assets.
 - Prime-conformant local component authoring when no suitable registry component exists.
+- Deterministic Figma/browser measurements, overlays, diffs, and bounded automatic correction passes.
 
-The current public preview contains the marketplace foundation, the `primeui-page-builder` workflow, template-driven standard page delivery, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. The design-driven contour has been exercised against a controlled Percents Figma frame through Prime candidate matching, prop validation, component delivery, local build, and desktop/mobile browser verification.
+The current public preview contains the marketplace foundation, the `primeui-page-builder` workflow, template-driven standard page delivery, Figma orchestration guidance, design and match contracts, custom component authoring rules, and a bundled machine-owned visual parity runtime. The runtime compares exact measurements and aligned PNG captures, masks only approved pending-media pixels, and prevents prose from overriding a blocking result.
 
 ## Requirements
 
@@ -103,6 +104,8 @@ Add only this Figma section between the existing feature and CTA sections on /pr
 
 Section-only work preserves the existing route, shared Header and Footer, unrelated sections, and project structure. Candidate requests send deterministic layout, grid, media-placement, and interaction intent to Prime; candidates with blocking structural mismatches remain visible as diagnostics but cannot outrank compatible components.
 
+After implementation, the Figma workflow invokes the separate `prime-visual-parity` skill. One user request may perform up to five internal render, audit, and correction passes. `audit.json` is the authority for visual status; build success, a clean console, working controls, or a manually written comparison cannot establish visual parity.
+
 Figma raster media is not downloaded by default. The workflow preserves its exact media-slot geometry with the project's Prime token-based placeholder and records the slot as `media-pending` for later replacement by an approved image, video, or animation. SVG assets and existing approved local media are used normally. A raster logo or brand mark may be exported when no vector source exists.
 
 The workflow reads Figma through the separately connected design provider. It does not write to Figma or create page state inside Prime Studio.
@@ -113,7 +116,8 @@ When the target has no `.primeui/project.json`, the workflow uses the PrimeUI CL
 npx @primeuicom/cli setup --ai-preset codex
 ```
 
-- In an empty directory, setup creates or reuses a Prime project and exports the complete Next.js starter into the current directory.
+- In an empty directory, setup creates a Prime project and exports the complete Next.js starter into the current directory.
+- If an unlinked remote project already uses the folder-derived slug, setup stops. Reuse requires an explicit `--reuse-project` flag so an old page inventory cannot be imported accidentally.
 - In an existing Next.js project, setup adds only the Prime binding and project-local agent setup; it does not replace application files.
 - In any other non-empty directory, setup stops before writing and asks the user to choose a safe target.
 
@@ -143,11 +147,14 @@ Validate the marketplace:
 pnpm --filter @primeuicom/skills-marketplace validate
 ```
 
-Synchronize Prime skills that are also bundled into exported-project agent presets:
+Build and synchronize the deterministic visual-audit runtime bundled with the plugin:
 
 ```bash
-pnpm --filter @primeuicom/agent-setup sync:prime-skills
+pnpm --filter @primeuicom/visual-audit build
+pnpm --filter @primeuicom/skills-marketplace sync:visual-audit
 ```
+
+`@primeuicom/agent-setup` intentionally keeps only project baseline instructions, MCP configuration, `git-commit`, and `tailwind-design-system`. Prime page-building, Figma, component-authoring, and visual-parity workflows are installed separately through this marketplace.
 
 After changing the Codex plugin version or local cachebuster, synchronize the Claude manifest:
 

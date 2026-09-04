@@ -3,15 +3,15 @@
   "owner": {
     "name": "Pixel Point"
   },
-  "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules.",
+  "description": "Build and visually audit local pages from Prime templates or Figma using Prime implementation rules.",
   "metadata": {
-    "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules."
+    "description": "Build and visually audit local pages from Prime templates or Figma using Prime implementation rules."
   },
   "plugins": [
     {
       "name": "prime",
       "source": "./",
-      "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules."
+      "description": "Build and visually audit local pages from Prime templates or Figma using Prime implementation rules."
     }
   ]
 }

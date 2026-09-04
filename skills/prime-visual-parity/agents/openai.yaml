@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prime Visual Parity"
+  short_description: "Measure and correct Figma visual differences"
+  default_prompt: "Use $prime-visual-parity to audit this Figma implementation and correct every blocking visual difference."

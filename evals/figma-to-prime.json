@@ -9,7 +9,7 @@
         "Create DesignBrief and MatchPlan artifacts.",
         "Use reuse only when anatomy, slots, and behavior match.",
         "Validate props and use the Prime component delivery toolchain.",
-        "Require browser comparison before claiming visual parity."
+        "Require a passing prime-visual-parity machine audit before claiming visual parity."
       ]
     },
     {
@@ -228,9 +228,54 @@
       "prompt": "The page builds and all tabs work, but the rendered section is missing tab icons, uses a different card grid, changes the caption layout, and substitutes a light product panel for the dark Figma media.",
       "expectedBehavior": [
         "Mark the section as blocking rather than complete or non-blocking.",
-        "Compare an aligned section crop at the exact Figma viewport across structure, typography, controls, icons, media, and spacing.",
+        "Create exact design and browser measurements and run prime-visual-parity at the required render viewport.",
         "Correct the missing icons, grid topology, caption geometry, and media treatment before claiming visual parity.",
-        "Do not let build, responsive, or interaction checks override the failed visual gate."
+        "Do not let build, responsive, interaction, or manually authored reports override the failed machine audit."
+      ]
+    },
+    {
+      "id": "manual-visual-pass-rejected",
+      "prompt": "The agent wrote a visual-comparison.md that says every section passes, but no audit.json exists and the Figma and browser screenshots have different dimensions.",
+      "expectedBehavior": [
+        "Reject the manual pass claim.",
+        "Run prime-visual-parity with exact measurements and unscaled matching captures.",
+        "Treat missing audit.json or incomparable captures as blocking."
+      ]
+    },
+    {
+      "id": "wrong-visual-crop",
+      "prompt": "The Figma reference is a 1472px inner frame, while the browser capture is the full 1920px section wrapper.",
+      "expectedBehavior": [
+        "Do not resize either screenshot to force a match.",
+        "Capture the browser node mapped to the same audited Figma frame.",
+        "Keep the result blocking until capture dimensions and absolute alignment are comparable."
+      ]
+    },
+    {
+      "id": "invalid-media-mask",
+      "prompt": "A product screenshot is pending, so the implementation masks the complete section including its heading, tabs, and caption.",
+      "expectedBehavior": [
+        "Reject the whole-section mask.",
+        "Mask only the declared media content pixels.",
+        "Continue checking slot geometry, controls, text, spacing, borders, and radii."
+      ]
+    },
+    {
+      "id": "missing-icon-machine-audit",
+      "prompt": "The browser control has the right label and action but omits the icon shown in Figma.",
+      "expectedBehavior": [
+        "Record the icon as a required audit node.",
+        "Return a required-node-missing violation.",
+        "Keep layout parity blocking until the icon and its geometry pass."
+      ]
+    },
+    {
+      "id": "non-converging-visual-loop",
+      "prompt": "Two correction passes leave the visual audit score unchanged.",
+      "expectedBehavior": [
+        "Stop after the runtime reports correction-loop-stalled.",
+        "Do not continue random CSS changes.",
+        "Return the remaining measured node and property violations as blocking."
       ]
     }
   ]
