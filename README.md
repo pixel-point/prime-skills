@@ -18,7 +18,7 @@ The current private preview contains the marketplace foundation, the existing `p
 
 - Node.js 22 or newer.
 - `pnpm` 10.
-- A project linked to Prime through `.primeui/project.json`, or a saved Prime organization login that the CLI can use to create the binding.
+- A local empty directory or Next.js project. PrimeUI CLI can guide first-time account, organization, project, binding, and agent setup without opening Prime Studio.
 - A compatible Figma design provider connected separately when using the Figma workflow.
 
 Figma credentials are not stored in this marketplace or sent through Prime MCP.
@@ -90,7 +90,7 @@ npx @primeuicom/cli setup --ai-preset codex
 - In an existing Next.js project, setup adds only the Prime binding and project-local agent setup; it does not replace application files.
 - In any other non-empty directory, setup stops before writing and asks the user to choose a safe target.
 
-Organization authentication is a one-time CLI prerequisite. Browser or GitHub OAuth automation is not part of the distributed plugin workflow.
+When no organization profile exists, interactive setup asks for email and organization name, sends the verification email, accepts the emailed command in a masked terminal prompt, and resumes automatically. A non-interactive local chat may pass `--email` and `--organization-name` to send the email, then asks the user to run the secret command locally before retrying. The plugin never asks for bootstrap secrets in chat and does not require Prime Studio or GitHub OAuth.
 
 ## Development
 

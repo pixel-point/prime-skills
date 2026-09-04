@@ -32,6 +32,7 @@ const expectedEvalCases = [
   "custom-component",
   "exact-component",
   "figma-instruction-injection",
+  "first-time-guided-bootstrap",
   "flattened-section-groups",
   "local-file-conflict",
   "missing-figma-access",
