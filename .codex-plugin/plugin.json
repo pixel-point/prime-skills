@@ -25,10 +25,7 @@
     "longDescription": "Add standard Prime page bundles without Figma, match full pages or individual Figma sections to Prime components, and create Prime-conformant local components when needed.",
     "developerName": "Pixel Point",
     "category": "Developer Tools",
-    "capabilities": [
-      "Interactive",
-      "Write"
-    ],
+    "capabilities": ["Interactive", "Write"],
     "websiteURL": "https://github.com/pixel-point/prime-skills",
     "brandColor": "#000000",
     "defaultPrompt": [
