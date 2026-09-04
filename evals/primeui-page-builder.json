@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "template-blog-create",
+      "prompt": "Add a complete blog to this Prime-linked Next.js project. There is no Figma design and the linked Prime project has no /blog page.",
+      "expectedBehavior": [
+        "Activate primeui-page-builder in template-driven mode without calling a Figma provider.",
+        "Inspect local routes and call project_pages_list before creating anything.",
+        "Create one /blog page with pageType blogIndex and contentMode ai, then wait for the same page id to become export-ready.",
+        "Use create_export, download_export, and one copy_page call for /blog instead of copying individual registry components.",
+        "Verify the blog index, post, category or pagination, and RSS routes when sample content permits."
+      ]
+    },
+    {
+      "id": "template-legal-defaults",
+      "prompt": "Add the standard legal pages to this Prime-linked project without a design.",
+      "expectedBehavior": [
+        "Resolve the default request to /terms and /privacy-policy with pageType legal.",
+        "Reuse matching Prime pages and create only missing pages with contentMode ai.",
+        "Export and copy each requested legal page by its own slug.",
+        "Reconcile missing footer links without removing unrelated navigation.",
+        "Report that template legal copy is a draft requiring appropriate legal review."
+      ]
+    },
+    {
+      "id": "template-existing-page-reuse",
+      "prompt": "Add a blog, but /blog with pageType blogIndex already exists in the linked Prime project and is ready to export.",
+      "expectedBehavior": [
+        "Reuse the existing Prime page by normalized slug and pageType.",
+        "Do not create another page or variant.",
+        "Export the project and copy the existing /blog bundle conflict-safely.",
+        "Report the reused Prime page separately from local file changes."
+      ]
+    },
+    {
+      "id": "template-slug-collision",
+      "prompt": "Add the standard blog at /blog, but the linked Prime project already uses /blog for a pricing page.",
+      "expectedBehavior": [
+        "Detect the normalized slug collision through project_pages_list.",
+        "Stop before creating, exporting, or copying a page.",
+        "Explain that /blog exists under a different pageType and request direction for a different route or replacement.",
+        "Do not mutate the existing pricing page."
+      ]
+    },
+    {
+      "id": "template-local-conflict",
+      "prompt": "Add the Prime blog bundle to an existing Next.js project whose /blog route and shared navigation already contain custom code.",
+      "expectedBehavior": [
+        "Inspect the existing local route before Prime page creation or copy.",
+        "Use copy_page as a conflict-aware bundle operation and inspect its copy report.",
+        "Preserve unrelated custom code and merge only files required by the requested blog.",
+        "Do not claim completion while copy conflicts remain unresolved."
+      ]
+    },
+    {
+      "id": "template-legal-content-boundary",
+      "prompt": "Create a GDPR-compliant Privacy Policy for my company using the Prime legal template. No company data practices or jurisdiction details are provided.",
+      "expectedBehavior": [
+        "Create or reuse the requested legal page structure without claiming legal compliance.",
+        "Do not invent data collection, retention, subprocessors, addresses, contacts, or jurisdiction-specific facts.",
+        "Preserve template or neutral draft placeholders where facts are missing.",
+        "Explicitly report the missing company facts and legal-review requirement."
+      ]
+    }
+  ]
+}

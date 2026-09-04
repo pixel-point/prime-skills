@@ -40,6 +40,14 @@ const expectedEvalCases = [
   "unrelated-figma-write",
   "visible-controls-must-work",
 ];
+const expectedPageBuilderEvalCases = [
+  "template-blog-create",
+  "template-existing-page-reuse",
+  "template-legal-content-boundary",
+  "template-legal-defaults",
+  "template-local-conflict",
+  "template-slug-collision",
+];
 const primeLogoSha256 =
   "7419807b8c62c99c6a91308559884afcd279bccadbfde2894b5a8e0fb9851530";
 
@@ -357,6 +365,42 @@ async function validateEvals() {
   );
 
   for (const entry of evaluation.cases) {
+    invariant(
+      typeof entry.prompt === "string" && entry.prompt.length > 0,
+      `Evaluation ${entry.id} requires a prompt`,
+    );
+    invariant(
+      Array.isArray(entry.expectedBehavior) &&
+        entry.expectedBehavior.length > 0,
+      `Evaluation ${entry.id} requires expected behavior`,
+    );
+  }
+
+  const pageBuilderEvalPath = path.join(
+    packageRoot,
+    "evals",
+    "primeui-page-builder.json",
+  );
+  const pageBuilderEvaluation = await readJson(pageBuilderEvalPath);
+  invariant(
+    pageBuilderEvaluation.version === 1,
+    "PrimeUI page-builder evaluation version must be 1",
+  );
+  invariant(
+    Array.isArray(pageBuilderEvaluation.cases),
+    "PrimeUI page-builder evaluation must contain cases",
+  );
+
+  const pageBuilderCaseIds = pageBuilderEvaluation.cases
+    .map((entry) => entry.id)
+    .sort();
+  invariant(
+    JSON.stringify(pageBuilderCaseIds) ===
+      JSON.stringify(expectedPageBuilderEvalCases),
+    `PrimeUI page-builder evaluation cases must be ${expectedPageBuilderEvalCases.join(", ")}`,
+  );
+
+  for (const entry of pageBuilderEvaluation.cases) {
     invariant(
       typeof entry.prompt === "string" && entry.prompt.length > 0,
       `Evaluation ${entry.id} requires a prompt`,

@@ -1,7 +1,7 @@
 {
   "name": "prime",
-  "version": "0.1.0+codex.20260904110954",
-  "description": "Build visually faithful local pages from Figma using Prime components and implementation rules.",
+  "version": "0.1.0+codex.20260904123419",
+  "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules.",
   "author": {
     "name": "Pixel Point",
     "email": "info@pixelpoint.io",
@@ -10,12 +10,19 @@
   "homepage": "https://github.com/pixel-point/prime-skills",
   "repository": "https://github.com/pixel-point/prime-skills",
   "license": "MIT",
-  "keywords": ["prime", "primeui", "figma", "design-to-code", "frontend"],
+  "keywords": [
+    "prime",
+    "primeui",
+    "figma",
+    "design-to-code",
+    "templates",
+    "frontend"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Prime",
-    "shortDescription": "Build local pages from Figma with Prime.",
-    "longDescription": "Match Figma sections to Prime components, adapt close matches, and create Prime-conformant local components when needed.",
+    "shortDescription": "Build pages from Prime templates or Figma.",
+    "longDescription": "Add standard Prime page bundles without Figma, match supplied Figma sections to Prime components, and create Prime-conformant local components when needed.",
     "developerName": "Pixel Point",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Write"],
@@ -23,8 +30,8 @@
     "brandColor": "#000000",
     "defaultPrompt": [
       "Build this Figma frame in my project using Prime.",
-      "Match this design to Prime components and implement the page.",
-      "Create a Prime-quality custom section for this Figma design."
+      "Add a complete Prime blog to my current project without Figma.",
+      "Add standard Terms and Privacy Policy pages using Prime."
     ],
     "composerIcon": "./assets/prime-logo.png",
     "logo": "./assets/prime-logo.png",

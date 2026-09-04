@@ -1,18 +1,19 @@
 # <img src="assets/prime-logo.png" alt="Prime logo" height="42" align="absbottom"> Prime Skills
 
-Prime Skills is the source marketplace for agent workflows that connect Figma design context, Prime components, and local frontend implementation.
+Prime Skills is the source marketplace for agent workflows that connect Prime page templates, Figma design context, Prime components, and local frontend implementation.
 
-The repository is currently developed inside the Prime monorepo. The standalone `pixel-point/prime-skills` repository is a private publication target until the workflows and installation experience are ready for public use.
+The repository is developed inside the Prime monorepo and published to the public `pixel-point/prime-skills` repository.
 
 ## What It Provides
 
 - An installable `prime` plugin for Codex-compatible plugin marketplaces.
 - Project-local access to the existing `@primeuicom/mcp` server.
 - Prime page-building guidance without requiring manual component-catalog browsing.
+- Template-driven blog, legal, docs, pricing, contact, and landing page workflows that do not require Figma.
 - A local-first Figma-to-Prime workflow with `reuse`, `adapt`, and `custom` matching.
 - Prime-conformant local component authoring when no suitable registry component exists.
 
-The current private preview contains the marketplace foundation, the existing `primeui-page-builder` workflow, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. The production contour has been exercised against a controlled Percents Figma frame through Prime candidate matching, prop validation, component delivery, local build, and desktop/mobile browser verification.
+The current public preview contains the marketplace foundation, the `primeui-page-builder` workflow, template-driven standard page delivery, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. The design-driven contour has been exercised against a controlled Percents Figma frame through Prime candidate matching, prop validation, component delivery, local build, and desktop/mobile browser verification.
 
 ## Requirements
 
@@ -25,7 +26,7 @@ Figma credentials are not stored in this marketplace or sent through Prime MCP.
 
 ## Install
 
-The GitHub repository is currently private, so installation requires GitHub access to `pixel-point/prime-skills`.
+The GitHub repository is public.
 
 ### Codex
 
@@ -71,6 +72,20 @@ For existing Prime page work:
 ```text
 Use Prime to inspect my current project and build the /pricing page.
 ```
+
+Standard Prime pages do not require Figma:
+
+```text
+Add a complete blog to my current project using the standard Prime template.
+```
+
+```text
+Add the standard Terms and Privacy Policy pages using Prime.
+```
+
+The page-builder first reuses matching pages already present in the linked Prime project. It creates only missing pages through Prime MCP, waits for their Studio templates to become export-ready, exports the full page bundles, and copies only the requested pages into the local project. These created pages persist in the linked Prime project and may be visible in Prime Studio.
+
+A blog is imported as one functional bundle rooted at `/blog`, including its index, post route, categories, pagination, RSS, content adapters, and dependencies. The default legal bundle contains `/terms` and `/privacy-policy`; its text remains draft content requiring appropriate legal review.
 
 The Figma workflow supports requests such as:
 
@@ -172,7 +187,7 @@ This creates `vX.Y.Z` in `pixel-point/prime-skills` and `prime-skills-vX.Y.Z` in
 
 ## Status
 
-This marketplace is under active private development. Installation contracts and workflows may change before the first public release.
+This marketplace is under active public-preview development. Installation contracts and workflows may change between preview releases.
 
 ## License
 

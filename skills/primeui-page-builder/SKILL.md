@@ -1,6 +1,6 @@
 ---
 name: primeui-page-builder
-description: Use when building or editing pages in an exported PrimeUI project. Checks PrimeUI readiness, inspects local conventions, plans page structure, retrieves candidates with component_candidates_get, validates props with component_props_validate, delivers materialized component instances, edits local files from insertion artifacts, and verifies the page using a stable pageSlug.
+description: Build or edit pages in a Prime-linked local frontend project, including standard blog, legal, docs, pricing, and contact pages without Figma. Routes standard pages through Prime project creation and full-page export, and composed pages through component candidate retrieval, validation, delivery, local editing, and verification.
 ---
 
 # PrimeUI Page Builder
@@ -30,6 +30,16 @@ Before planning, identify:
 
 Reuse the same `pageSlug` for candidate retrieval, props validation, and diagnostics.
 
+## Select The Source Mode
+
+Classify the request before planning or calling page tools:
+
+- `design-driven`: the user supplies a Figma file or node. Use the installed `figma-to-prime` workflow. When this skill is invoked from that workflow, use the candidate and delivery sections below for each normalized design section.
+- `template-driven`: the user supplies no Figma source and requests a standard Prime page type or bundle. Read and follow [template-driven pages](references/template-driven-pages.md).
+- `composition-driven`: no supplied design or complete standard template fits. Plan and assemble the page from Prime component candidates using the sections below.
+
+Do not call a Figma provider for a template-driven or composition-driven request.
+
 ## Inspect The Exported Project
 
 Before editing, inspect:
@@ -41,7 +51,7 @@ Before editing, inspect:
 - existing PrimeUI component usage and local wrapper patterns
 - package scripts for typecheck, build, dev, render, or browser checks
 
-## Plan The Page
+## Plan A Composed Page
 
 Create a short local plan:
 
@@ -50,7 +60,7 @@ Create a short local plan:
 - expected local route/page file
 - initial ordered `blocks[]`
 
-For new pages, start with an empty ordered `blocks[]` and append-first operations. Use `insert` only when placing a section before an already planned block, and `replace` only when revising a chosen block.
+For composition-driven pages and design-driven sections, start with an empty ordered `blocks[]` and append-first operations. Use `insert` only when placing a section before an already planned block, and `replace` only when revising a chosen block. Do not decompose a template-driven blog or documentation bundle into independent component-copy operations.
 
 ## Candidate Retrieval
 
@@ -134,4 +144,6 @@ Preserve evidence:
 
 Prime automatically logs candidate and validation requests/results by stable `pageSlug`. Inspect those logs when troubleshooting, but do not emit separate diagnostics events.
 
-Candidate retrieval, props validation, delivery preparation, and local file edits do not mutate Prime page state. Do not call sync-back or page-confirmation tools unless a future explicit sync-back workflow ships and the user requests it.
+Candidate retrieval, props validation, delivery preparation, and local file edits do not mutate Prime page state. Template-driven creation is the only workflow in this skill that may create missing requested pages in the linked Prime project; follow its inventory and idempotency rules and do not mutate unrelated pages or variants.
+
+Do not call sync-back or page-confirmation tools unless a future explicit sync-back workflow ships and the user requests it. In the final report, distinguish pages created or reused in Prime from files created, copied, adapted, or left conflicted in the local project.
