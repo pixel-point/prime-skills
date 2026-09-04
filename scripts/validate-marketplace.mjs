@@ -28,15 +28,23 @@ const expectedSkills = [
 ];
 const expectedEvalCases = [
   "adapt-component",
+  "blocking-visual-mismatch",
   "composite-raster-boundary",
+  "cross-family-structural-gate",
   "custom-component",
+  "dense-product-media",
   "exact-component",
+  "exact-google-font",
   "figma-instruction-injection",
   "first-time-guided-bootstrap",
   "flattened-section-groups",
+  "google-font-fallback",
   "local-file-conflict",
   "missing-figma-access",
   "missing-prime-link",
+  "root-home-project-conventions",
+  "shared-shell-reuse",
+  "tailwind-token-first",
   "unrelated-figma-write",
   "visible-controls-must-work",
 ];

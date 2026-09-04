@@ -66,6 +66,8 @@ For composition-driven pages and design-driven sections, start with an empty ord
 
 Use MCP `component_candidates_get`; do not call the PrimeUI API directly.
 
+For a design-driven section, define its structural signature before requesting candidates: macro anatomy, grid topology and spans, content order, media placement, caption layout, visible controls and icons, and responsive transitions. Page-rhythm scores are useful only after structural compatibility is established.
+
 For each section, provide:
 
 - `pageSlug`
@@ -76,7 +78,9 @@ For each section, provide:
 - optional narrow `constraints`: `spreadDegree`, `allowedGroups`, `excludedGroups`, `excludeComponentIds`
 - optional `projectRoot` when needed
 
-Choose candidates using scores, group/family/layout rhythm, descriptions, visual metadata, default props, schemas, local context, page stage, and `copyHints`.
+When more than one group could fit the structural signature, retrieve candidates across the plausible groups through combined or separate `allowedGroups` requests. Do not constrain the first request to one guessed family. Compare candidates using grid and content anatomy, group/family/layout rhythm, descriptions, functionality, visual metadata, default props, schemas, local context, page stage, and `copyHints`.
+
+Reject a candidate even with a high score when its grid, card spans, media-to-copy order, caption structure, or control anatomy conflicts with the source. Record credible rejected candidates and blocking differences. If no candidate is structurally compatible, use the custom authoring path instead of stretching the closest score.
 
 ## Props Authoring And Validation
 
@@ -130,13 +134,17 @@ Before browser acceptance, inventory visible tabs, carousel arrows, selectors, a
 
 Keep content and controls as semantic DOM even when the design source contains a flattened composite image. A composite image may be cropped into media-only regions, but it must not replace section copy, card structure, or visible controls. If alternate interaction content is absent, reuse known content or repeat known carousel items, preserve truthful labels and accessible state, and record the synthesized fallback.
 
+Treat dense non-interactive product UI as bounded media and prefer an exact source export over an approximate reconstruction. For design-driven verification, compare every semantic section at the exact reference viewport. Missing visible icons, controls, labels, or media; wrong grid topology or spans; changed media/caption order; incorrect light/dark treatment; and materially different typography, wrapping, alignment, or proportions are blocking even when build and interaction checks pass.
+
 Preserve evidence:
 
 - selected candidates and why they were chosen
+- credible rejected candidates and their blocking anatomy differences
 - validation outcomes
 - touched local files
 - verification commands/results
 - tested affordances and observed state changes
+- section-level reference and rendered crop results, including any blocking mismatch
 - synthesized states caused by incomplete source designs
 - external-planning log paths
 

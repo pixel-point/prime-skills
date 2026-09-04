@@ -115,10 +115,91 @@
       "prompt": "Implement this Figma page. It shows tabs and carousel arrows, but only one tab state and three unique carousel cards are present in the source.",
       "expectedBehavior": [
         "Implement every visible tab and carousel arrow as an interactive accessible control.",
+        "Preserve every visible control icon plus its placement, size, spacing, and selected-state treatment.",
         "Reuse known content for missing tab states and repeat known carousel items when required for movement.",
         "Do not invent unsupported business claims for synthesized states.",
         "Click every visible control in browser acceptance and verify observable state or position changes.",
         "Record synthesized states in the run artifacts and final report."
+      ]
+    },
+    {
+      "id": "root-home-project-conventions",
+      "prompt": "Implement this Figma homepage at / in an exported project named Percents. The project already owns / in src/app/(website)/page.tsx and stores Home sections under src/components/pages/home.",
+      "expectedBehavior": [
+        "Reuse src/app/(website)/page.tsx and map / to the stable page key home.",
+        "Do not create a (percents) route group, pages/percents component folder, project-named public root, or page wrapper solely from the brand name.",
+        "Import and order substantial semantic Home sections directly from the route.",
+        "Place page assets under the existing Home asset convention, normally public/images/home."
+      ]
+    },
+    {
+      "id": "shared-shell-reuse",
+      "prompt": "The supplied Figma homepage has a different Header and Footer, while the exported project already renders shared Header and Footer components from its website layout.",
+      "expectedBehavior": [
+        "Keep providers, Header, Footer, and shell ownership in the existing shared layout and components.",
+        "Update shared data, props, tokens, or reusable variants instead of duplicating Header and Footer inside the page.",
+        "Verify every known route that consumes the changed shared shell.",
+        "Create a separate page layout only when the user explicitly requests an isolated microsite."
+      ]
+    },
+    {
+      "id": "exact-google-font",
+      "prompt": "The Figma design uses Figtree Medium for headings and Inter for body copy. The exported Next.js project currently uses Inter for both.",
+      "expectedBehavior": [
+        "Inspect the installed next/font/google declarations and recognize that Figtree is available.",
+        "Configure Figtree and Inter once through the shared font module or root layout.",
+        "Preserve the existing heading and body CSS variables and load only required subsets, styles, and non-variable weights.",
+        "Do not report Inter as an intentional fallback for Figtree."
+      ]
+    },
+    {
+      "id": "google-font-fallback",
+      "prompt": "The design uses a proprietary heading font, but no licensed font files are available in the project.",
+      "expectedBehavior": [
+        "Do not download or embed unlicensed font files.",
+        "Choose the closest suitable free Google Font through next/font/google.",
+        "Integrate the fallback through the shared typography variables rather than a page component.",
+        "Record the source family, selected family, and substitution reason in the design artifacts and final report."
+      ]
+    },
+    {
+      "id": "tailwind-token-first",
+      "prompt": "Implement this Figma homepage in a Tailwind v4 Prime export. The design introduces repeated brand colors and radii plus a few complex decorative effects.",
+      "expectedBehavior": [
+        "Use statically discoverable Tailwind utilities and existing semantic tokens by default.",
+        "Update the existing token source for repeated design-wide values and use arbitrary utilities only for genuine one-off values.",
+        "Do not create a page-local CSS Module.",
+        "Place only unavoidable keyframes, masks, or reusable multi-selector behavior under the existing src/styles hierarchy and document why Tailwind was insufficient."
+      ]
+    },
+    {
+      "id": "cross-family-structural-gate",
+      "prompt": "Match a Figma capability section with four large product-media cards in a mixed bento grid. Prime returns both bento and features-card candidates with similar page-rhythm scores.",
+      "expectedBehavior": [
+        "Record the source grid topology, card spans, media placement, caption layout, and visible controls before candidate retrieval.",
+        "Retrieve and compare credible candidates across both bento and features-cards groups.",
+        "Reject a higher-scoring candidate when its grid or content anatomy conflicts with the section contract.",
+        "Record inspected rejected candidates and their blocking structural differences in MatchPlan."
+      ]
+    },
+    {
+      "id": "dense-product-media",
+      "prompt": "A Figma section contains a detailed non-interactive receipt and dense dashboard screenshots surrounded by semantic tabs, headings, and captions.",
+      "expectedBehavior": [
+        "Use exact Figma node exports or tight crops for the dense receipt and dashboard media.",
+        "Keep tabs, headings, captions, labels, and accessible interaction state as semantic DOM.",
+        "Do not hand-build approximate dense product UI unless functional reconstruction was requested or exact parity can be demonstrated.",
+        "Verify media treatment and surrounding DOM together in an aligned section crop."
+      ]
+    },
+    {
+      "id": "blocking-visual-mismatch",
+      "prompt": "The page builds and all tabs work, but the rendered section is missing tab icons, uses a different card grid, changes the caption layout, and substitutes a light product panel for the dark Figma media.",
+      "expectedBehavior": [
+        "Mark the section as blocking rather than complete or non-blocking.",
+        "Compare an aligned section crop at the exact Figma viewport across structure, typography, controls, icons, media, and spacing.",
+        "Correct the missing icons, grid topology, caption geometry, and media treatment before claiming visual parity.",
+        "Do not let build, responsive, or interaction checks override the failed visual gate."
       ]
     }
   ]

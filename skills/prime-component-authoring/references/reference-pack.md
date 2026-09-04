@@ -19,6 +19,7 @@ Choose references that cover distinct implementation questions:
 - optionally one for the required responsive or interactive behavior.
 
 Do not select three nearly identical references merely because they have the highest candidate scores.
+When a section could plausibly map to different groups, inspect those groups before choosing. For example, compare `bento` and `features-cards` for mixed card grids rather than treating the first feature-card result as authoritative.
 
 ## Extraction Notes
 
@@ -33,6 +34,7 @@ class composition:
 interaction/accessibility:
 assets/dependencies:
 verification commands:
+blocking anatomy differences:
 ```
 
 Do not paste whole source files into the report. Keep downloaded reference artifacts in the existing Prime temporary export location and cite their paths.
@@ -45,6 +47,8 @@ When references disagree:
 2. established target-project conventions win over unrelated registry conventions;
 3. accessibility and correct interaction semantics win over literal visual imitation;
 4. the Figma reference decides visual details that do not violate the higher-priority rules.
+
+Prime references do not override Figma grid spans, control/icon anatomy, media treatment, or caption geometry merely because adapting the reference is convenient.
 
 ## Completion
 
