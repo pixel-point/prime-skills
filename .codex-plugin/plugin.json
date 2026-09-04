@@ -1,6 +1,6 @@
 {
   "name": "prime",
-  "version": "0.1.1+codex.20260904124838",
+  "version": "0.1.2+codex.20260904140130",
   "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules.",
   "author": {
     "name": "Pixel Point",
