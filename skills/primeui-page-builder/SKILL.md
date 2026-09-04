@@ -1,6 +1,6 @@
 ---
 name: primeui-page-builder
-description: Build or edit pages in a Prime-linked local frontend project, including standard blog, legal, docs, pricing, and contact pages without Figma. Routes standard pages through Prime project creation and full-page export, and composed pages through component candidate retrieval, validation, delivery, local editing, and verification.
+description: Build or edit pages or individual page sections in a Prime-linked local frontend project, including standard blog, legal, docs, pricing, and contact pages without Figma. Routes standard pages through Prime project creation and full-page export, and composed pages or sections through component candidate retrieval, validation, delivery, local editing, and verification.
 ---
 
 # PrimeUI Page Builder
@@ -23,6 +23,7 @@ PrimeUI supplies candidate scoring, registry metadata, component delivery, props
 
 Before planning, identify:
 
+- request scope: full page or `section-only`
 - target slug and stable `pageSlug`
 - page theme or `pageType` intent
 - product/business context and source copy
@@ -34,7 +35,7 @@ Reuse the same `pageSlug` for candidate retrieval, props validation, and diagnos
 
 Classify the request before planning or calling page tools:
 
-- `design-driven`: the user supplies a Figma file or node. Use the installed `figma-to-prime` workflow. When this skill is invoked from that workflow, use the candidate and delivery sections below for each normalized design section.
+- `design-driven`: the user supplies a Figma file or node. Use the installed `figma-to-prime` workflow. When this skill is invoked from that workflow, preserve its `page` or `section-only` scope and use the candidate and delivery sections below for each normalized design section.
 - `template-driven`: the user supplies no Figma source and requests a standard Prime page type or bundle. Read and follow [template-driven pages](references/template-driven-pages.md).
 - `composition-driven`: no supplied design or complete standard template fits. Plan and assemble the page from Prime component candidates using the sections below.
 
@@ -62,6 +63,8 @@ Create a short local plan:
 
 For composition-driven pages and design-driven sections, start with an empty ordered `blocks[]` and append-first operations. Use `insert` only when placing a section before an already planned block, and `replace` only when revising a chosen block. Do not decompose a template-driven blog or documentation bundle into independent component-copy operations.
 
+For `section-only`, inspect the existing route and identify the narrow insertion or replacement anchor. Preserve unrelated route composition and pass stable surrounding Prime block IDs only when they are known. If custom local neighbors cannot be represented truthfully, use `blocks: []` for candidate planning and preserve the real insertion point during the local edit.
+
 ## Candidate Retrieval
 
 Use MCP `component_candidates_get`; do not call the PrimeUI API directly.
@@ -76,9 +79,10 @@ For each section, provide:
 - `operation`: omit for append or pass explicit append/insert/replace
 - optional `count`
 - optional narrow `constraints`: `spreadDegree`, `allowedGroups`, `excludedGroups`, `excludeComponentIds`
+- `sectionIntent` for design-driven work: plausible `preferredGroups`, required interactions, layout, grid topology, and media placement
 - optional `projectRoot` when needed
 
-When more than one group could fit the structural signature, retrieve candidates across the plausible groups through combined or separate `allowedGroups` requests. Do not constrain the first request to one guessed family. Compare candidates using grid and content anatomy, group/family/layout rhythm, descriptions, functionality, visual metadata, default props, schemas, local context, page stage, and `copyHints`.
+When more than one group could fit the structural signature, include every plausible group in `sectionIntent.preferredGroups`; reserve `constraints.allowedGroups` for a genuine hard allow-list. Do not constrain the first request to one guessed family. Reject `intentMatch.status: "mismatch"`, investigate `partial` unknown evidence, and compare compatible candidates using `totalScore`, grid and content anatomy, group/family/layout rhythm, descriptions, functionality, visual metadata, default props, schemas, local context, page stage, and `copyHints`.
 
 Reject a candidate even with a high score when its grid, card spans, media-to-copy order, caption structure, or control anatomy conflicts with the source. Record credible rejected candidates and blocking differences. If no candidate is structurally compatible, use the custom authoring path instead of stretching the closest score.
 
@@ -126,19 +130,24 @@ You may refactor where the returned props live to match local project convention
 3. Update local ordered `blocks[]` with the chosen `componentId`.
 4. Repeat candidate retrieval, optional delivery, prop authoring, validation, local edit, and block-state update until the page is complete.
 
+In `section-only`, stop after the requested section and its minimal route insertion or replacement are complete. Do not continue filling, restructuring, or restyling the page.
+
 ## Local Verification And Evidence
 
 Run project-appropriate local checks, such as typecheck, build, dev-server smoke, route rendering, or browser checks.
 
 Before browser acceptance, inventory visible tabs, carousel arrows, selectors, accordions, and buttons. Exercise each one and verify an observable content, position, or accessible-state change. A visually accurate but dead control is a failed implementation.
 
-Keep content and controls as semantic DOM even when the design source contains a flattened composite image. A composite image may be cropped into media-only regions, but it must not replace section copy, card structure, or visible controls. If alternate interaction content is absent, reuse known content or repeat known carousel items, preserve truthful labels and accessible state, and record the synthesized fallback.
+Keep content and controls as semantic DOM even when the design source contains a flattened composite image. It must not replace section copy, card structure, or visible controls. If alternate interaction content is absent, reuse known content or repeat known carousel items, preserve truthful labels and accessible state, and record the synthesized fallback.
 
-Treat dense non-interactive product UI as bounded media and prefer an exact source export over an approximate reconstruction. For design-driven verification, compare every semantic section at the exact reference viewport. Missing visible icons, controls, labels, or media; wrong grid topology or spans; changed media/caption order; incorrect light/dark treatment; and materially different typography, wrapping, alignment, or proportions are blocking even when build and interaction checks pass.
+Do not download Figma raster media by default. Use the project's Prime token-based media placeholder with exact slot geometry and `media-pending` evidence; keep it replaceable by image, video, or animation. Use exact vectors and existing or user-approved local assets. A raster logo or brand mark is the only default export exception when no vector exists. Never approximate dense product UI unless functional reconstruction was explicitly requested.
+
+For design-driven verification, compare every requested semantic section at the exact reference viewport. Missing visible icons, controls, labels, or media slots; wrong grid topology or spans; changed media/caption order; incorrect placeholder geometry or light/dark treatment; and materially different typography, wrapping, alignment, or proportions are blocking even when build and interaction checks pass. `layout-parity` may pass with pending media, but full visual parity and pixel-perfect status may not.
 
 Preserve evidence:
 
 - selected candidates and why they were chosen
+- supplied `sectionIntent` plus every match, mismatch, and unknown diagnostic used in selection
 - credible rejected candidates and their blocking anatomy differences
 - validation outcomes
 - touched local files
@@ -146,6 +155,7 @@ Preserve evidence:
 - tested affordances and observed state changes
 - section-level reference and rendered crop results, including any blocking mismatch
 - synthesized states caused by incomplete source designs
+- every `media-pending` slot and its replacement contract
 - external-planning log paths
 
 ## Diagnostics And Non-Mutation

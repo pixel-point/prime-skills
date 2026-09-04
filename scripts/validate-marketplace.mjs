@@ -42,13 +42,17 @@ const expectedEvalCases = [
   "local-file-conflict",
   "missing-figma-access",
   "missing-prime-link",
+  "raster-brand-exception",
   "root-home-project-conventions",
+  "section-intent-diagnostics",
+  "section-only-existing-page",
   "shared-shell-reuse",
   "tailwind-token-first",
   "unrelated-figma-write",
   "visible-controls-must-work",
 ];
 const expectedPageBuilderEvalCases = [
+  "design-section-only",
   "template-blog-create",
   "template-existing-page-reuse",
   "template-legal-content-boundary",

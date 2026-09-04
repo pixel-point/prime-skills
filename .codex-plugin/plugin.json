@@ -1,6 +1,6 @@
 {
   "name": "prime",
-  "version": "0.1.2+codex.20260904140130",
+  "version": "0.1.3+codex.20260904143455",
   "description": "Build local pages from Prime templates or Figma using Prime components and implementation rules.",
   "author": {
     "name": "Pixel Point",
@@ -22,14 +22,17 @@
   "interface": {
     "displayName": "Prime",
     "shortDescription": "Build pages from Prime templates or Figma.",
-    "longDescription": "Add standard Prime page bundles without Figma, match supplied Figma sections to Prime components, and create Prime-conformant local components when needed.",
+    "longDescription": "Add standard Prime page bundles without Figma, match full pages or individual Figma sections to Prime components, and create Prime-conformant local components when needed.",
     "developerName": "Pixel Point",
     "category": "Developer Tools",
-    "capabilities": ["Interactive", "Write"],
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
     "websiteURL": "https://github.com/pixel-point/prime-skills",
     "brandColor": "#000000",
     "defaultPrompt": [
-      "Build this Figma frame in my project using Prime.",
+      "Build this Figma page or section in my project using Prime.",
       "Add a complete Prime blog to my current project without Figma.",
       "Add standard Terms and Privacy Policy pages using Prime."
     ],

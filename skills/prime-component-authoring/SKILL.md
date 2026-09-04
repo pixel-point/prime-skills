@@ -56,9 +56,11 @@ Record the chosen Prime reference component IDs in the implementation report for
 - Use Tailwind utilities and semantic tokens by default. Update the existing token source for repeated design-wide values. Use a statically discoverable arbitrary utility for a genuine one-off value; do not scatter repeated raw values.
 - Do not create a page-local CSS Module. If substantial keyframes, masks, or reusable multi-selector behavior cannot be expressed cleanly with Tailwind, add the smallest exceptional rule under the existing `src/styles` hierarchy, reference existing variables, and record why Tailwind was insufficient.
 - Model content and variants with typed props. Keep data separate from markup when nearby components do so.
-- Preserve exact Figma assets when available. Do not silently substitute fonts, images, icons, or illustrations. Resolve design fonts through the project's shared typography integration rather than importing them inside one section.
-- Treat a composite Figma export as a source asset, not a component. Crop it to bounded media-only regions and author surrounding headings, copy, icons, cards, and controls as DOM.
-- Treat a dense non-interactive dashboard, receipt, chart, device UI, map, or product mockup as bounded media. Prefer an exact Figma node export or crop over an approximate hand-built recreation unless functional reconstruction was requested or exact parity can be demonstrated.
+- Do not download or export Figma raster media by default. Preserve its exact slot geometry with the project's existing Prime token-based placeholder pattern and keep the slot replaceable by `next/image`, video, or animation. Never add a generic placeholder raster solely to fill the slot.
+- Use existing local or user-approved assets. Preserve exact SVG icons, vector illustrations, and vector logos. A raster logo or brand mark may be exported exactly when no vector exists; every other Figma raster export requires explicit user approval.
+- Record pending raster node identity, role, aspect ratio, crop or focal guidance, recommended output, and `media-pending` status. Do not assign fabricated alternative text to decorative placeholders.
+- Treat a composite Figma export as structural evidence, not a component. Author surrounding headings, copy, icons, cards, and controls as DOM and use replaceable placeholders for raster-only media regions.
+- Never approximate a dense dashboard, receipt, chart, device UI, map, or product mockup in code. Rebuild it only when functional reconstruction was explicitly requested.
 - Never preserve a dead affordance for visual similarity. Every visible tab, arrow, selector, accordion trigger, or button must use the project's interaction primitives and expose keyboard, focus, and selected/expanded state.
 - Preserve every visible control icon and its placement, size, stroke, spacing, and selected-state treatment. A working text-only replacement is a blocking mismatch when the reference includes an icon.
 - If only one interaction state exists in the source, reuse known content for the missing state or repeat known carousel items. Make the state change observable, label the fallback honestly, and record it instead of inventing product claims.
@@ -77,7 +79,7 @@ Use the Figma reference and rendered browser state to correct the component. Pri
 4. spacing and responsive transitions;
 5. color, border, radius, shadow, media, and motion.
 
-Compare an aligned section crop at the exact reference viewport. Wrong grid topology or spans, changed media-to-copy order, incorrect caption layout, missing icons or media, wrong light/dark product treatment, approximate replacement of available dense media, or materially different text wrapping is blocking. A successful build or interaction test does not clear these differences, and they must not be reported as non-blocking deviations.
+Compare an aligned section crop at the exact reference viewport. Wrong grid topology or spans, changed media-to-copy order, incorrect caption layout, missing icons or media slots, wrong placeholder geometry or light/dark treatment, unapproved raster approximation, or materially different text wrapping is blocking. `layout-parity` may pass with correctly shaped `media-pending` placeholders, but full visual parity and pixel-perfect status cannot. A successful build or interaction test does not clear these differences, and they must not be reported as non-blocking deviations.
 
 If a visual correction would violate accessibility, product behavior, or repository policy, preserve the higher-priority requirement and report the difference.
 

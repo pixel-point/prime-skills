@@ -6,6 +6,7 @@ Use these contracts when materializing a local Figma-to-Prime run. They are loca
 
 ```ts
 type DesignBrief = {
+  mode: "page" | "section-only";
   source: {
     url: string;
     fileKey: string;
@@ -27,6 +28,11 @@ type DesignBrief = {
       width: number;
       height: number;
     };
+    insertionContext: {
+      operation: "append" | "insert" | "replace";
+      anchor: string | null;
+      protectedFiles: string[];
+    } | null;
   };
   tokens: {
     colors: Record<string, string>;
@@ -78,13 +84,37 @@ type DesignSection = {
     textHierarchy: string[];
     candidateGroups: string[];
   };
+  sectionIntent: {
+    preferredGroups?: string[];
+    requiredInteractions?: Array<
+      "tabs" | "carousel" | "accordion" | "selector"
+    >;
+    layout?: {
+      structure?: string;
+      container?: "narrow" | "base" | "wide" | "full";
+      alignment?: "left" | "center";
+      orientation?: "media-left" | "media-right";
+      visualStyle?: string;
+    };
+    grid?: {
+      columns?: number;
+      itemCount?: number;
+      pattern?: "uniform" | "asymmetric";
+    };
+    mediaPlacement?: "background" | "top" | "left" | "right" | "inside-cards";
+  };
   assets: Array<{
     nodeId: string;
     role: string;
     format: string | null;
     localPath: string | null;
-    status: "available" | "missing" | "needs-export";
-    implementation: "semantic-dom" | "bounded-media";
+    status: "available" | "missing" | "media-pending" | "approved-export";
+    implementation: "semantic-dom" | "prime-placeholder" | "approved-asset";
+    aspectRatio: string | null;
+    cropOrFocalGuidance: string | null;
+    recommendedDimensions: string | null;
+    recommendedFormat: string | null;
+    replacementType: "image" | "video" | "animation" | null;
   }>;
 };
 ```
@@ -105,6 +135,14 @@ type MatchPlan = {
       componentId: string;
       blockingDifferences: string[];
     }>;
+    intentDiagnostics: Array<{
+      componentId: string;
+      status: "match" | "partial" | "mismatch";
+      score: number;
+      matched: string[];
+      mismatched: string[];
+      unknown: string[];
+    }>;
     rationale: string[];
     props: Record<string, unknown>;
     targetPath: string;
@@ -121,7 +159,7 @@ Use `componentId` for the selected Prime component on `reuse` and `adapt`. It ma
 | Section | Role | Mode | Prime references | Target file | Result |
 | ------- | ---- | ---- | ---------------- | ----------- | ------ |
 
-After the table, record missing assets, unresolved interaction meaning, dependency conflicts, font substitutions, exceptional CSS, and intentional visual deviations. Missing icons, wrong grid topology or spans, different media treatment, incorrect caption layout, and materially different text wrapping are not intentional deviations; they are blocking mismatches.
+After the table, record missing assets, `media-pending` replacement contracts, unresolved interaction meaning, dependency conflicts, font substitutions, exceptional CSS, and intentional visual deviations. Missing icons, wrong grid topology or spans, incorrect placeholder geometry, unapproved raster substitutions, incorrect caption layout, and materially different text wrapping are not intentional deviations; they are blocking mismatches.
 
 ## Classification Rules
 
@@ -133,12 +171,12 @@ Choose based on anatomy and behavior, not a numeric score alone:
 
 ## VisualComparison
 
-`visual-comparison.md` must contain one exact-viewport result for every semantic section:
+`visual-comparison.md` must contain one exact-viewport result for every requested semantic section:
 
-| Section | Reference crop | Rendered crop | Structure | Typography | Controls/icons | Media | Spacing | Result |
-| ------- | -------------- | ------------- | --------- | ---------- | -------------- | ----- | ------- | ------ |
+| Section | Reference crop | Rendered crop | Structure | Typography | Controls/icons | Media | Spacing | Layout parity | Full visual parity |
+| ------- | -------------- | ------------- | --------- | ---------- | -------------- | ----- | ------- | ------------- | ------------------ |
 
-Use `pass`, `blocking`, or `externally-blocked` for Result. A successful build or interaction test cannot change a `blocking` result to `pass`. Record each correction pass and keep the final unresolved blocking list explicit.
+Use `pass`, `blocking`, or `externally-blocked` for each parity result. `layout-parity` may pass with correctly shaped Prime placeholders. Full visual parity remains `blocking` while any media is `media-pending`. A successful build or interaction test cannot change a `blocking` result to `pass`. Record each correction pass and keep the final unresolved blocking list explicit.
 
 ## Artifact Location
 

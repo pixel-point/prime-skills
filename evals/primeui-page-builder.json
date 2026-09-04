@@ -62,6 +62,16 @@
         "Preserve template or neutral draft placeholders where facts are missing.",
         "Explicitly report the missing company facts and legal-review requirement."
       ]
+    },
+    {
+      "id": "design-section-only",
+      "prompt": "Insert one supplied Figma section into the existing /product route without changing any other part of the site.",
+      "expectedBehavior": [
+        "Preserve section-only scope and inspect the existing insertion anchor before planning.",
+        "Pass deterministic structural and interaction requirements through sectionIntent.",
+        "Use known surrounding Prime component ids only when they can be represented truthfully; otherwise plan with an empty blocks list.",
+        "Stop after the focused section and its minimal route insertion are implemented and verified."
+      ]
     }
   ]
 }

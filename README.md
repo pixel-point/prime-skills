@@ -11,6 +11,8 @@ The repository is developed inside the Prime monorepo and published to the publi
 - Prime page-building guidance without requiring manual component-catalog browsing.
 - Template-driven blog, legal, docs, pricing, contact, and landing page workflows that do not require Figma.
 - A local-first Figma-to-Prime workflow with `reuse`, `adapt`, and `custom` matching.
+- Deterministic section-intent matching for full-page and single-section Figma work.
+- Replaceable Prime media placeholders for unapproved Figma raster assets.
 - Prime-conformant local component authoring when no suitable registry component exists.
 
 The current public preview contains the marketplace foundation, the `primeui-page-builder` workflow, template-driven standard page delivery, Figma orchestration guidance, design and match contracts, custom component authoring rules, and visual parity requirements. The design-driven contour has been exercised against a controlled Percents Figma frame through Prime candidate matching, prop validation, component delivery, local build, and desktop/mobile browser verification.
@@ -92,6 +94,16 @@ The Figma workflow supports requests such as:
 ```text
 Build this Figma frame as /pricing in my current project using Prime.
 ```
+
+It also supports a narrow section-only request in an existing site:
+
+```text
+Add only this Figma section between the existing feature and CTA sections on /product using Prime.
+```
+
+Section-only work preserves the existing route, shared Header and Footer, unrelated sections, and project structure. Candidate requests send deterministic layout, grid, media-placement, and interaction intent to Prime; candidates with blocking structural mismatches remain visible as diagnostics but cannot outrank compatible components.
+
+Figma raster media is not downloaded by default. The workflow preserves its exact media-slot geometry with the project's Prime token-based placeholder and records the slot as `media-pending` for later replacement by an approved image, video, or animation. SVG assets and existing approved local media are used normally. A raster logo or brand mark may be exported when no vector source exists.
 
 The workflow reads Figma through the separately connected design provider. It does not write to Figma or create page state inside Prime Studio.
 

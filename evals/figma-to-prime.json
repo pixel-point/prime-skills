@@ -60,7 +60,8 @@
       "expectedBehavior": [
         "Do not place the complete card PNG as the card implementation.",
         "Author card structure, text, icon, and semantics in DOM.",
-        "Crop the composite source to bounded media-only regions when no clean media asset exists.",
+        "Use Prime token-based placeholders for the raster-only media regions without downloading the PNG.",
+        "Record each raster slot as media-pending with its aspect ratio, crop guidance, recommended output, and replacement type.",
         "Verify responsive layout and readable content in the browser."
       ]
     },
@@ -186,10 +187,40 @@
       "id": "dense-product-media",
       "prompt": "A Figma section contains a detailed non-interactive receipt and dense dashboard screenshots surrounded by semantic tabs, headings, and captions.",
       "expectedBehavior": [
-        "Use exact Figma node exports or tight crops for the dense receipt and dashboard media.",
+        "Use replaceable Prime token-based placeholders for the receipt and dashboard media without downloading Figma rasters.",
         "Keep tabs, headings, captions, labels, and accessible interaction state as semantic DOM.",
-        "Do not hand-build approximate dense product UI unless functional reconstruction was requested or exact parity can be demonstrated.",
-        "Verify media treatment and surrounding DOM together in an aligned section crop."
+        "Do not hand-build approximate dense product UI unless functional reconstruction was explicitly requested.",
+        "Allow layout-parity to pass when the placeholder slots match, but keep full visual parity and pixel-perfect status incomplete while media is pending."
+      ]
+    },
+    {
+      "id": "raster-brand-exception",
+      "prompt": "Implement this Figma hero without downloading its photograph. The only available company logo is a raster layer and no vector logo exists.",
+      "expectedBehavior": [
+        "Use a Prime token-based placeholder for the photograph and record it as media-pending.",
+        "Export the raster logo exactly because it is brand identity with no vector source.",
+        "Do not treat the brand exception as approval to export other raster media.",
+        "Keep the photograph slot replaceable by image, video, or animation without changing hero anatomy."
+      ]
+    },
+    {
+      "id": "section-intent-diagnostics",
+      "prompt": "Implement a four-card asymmetric Figma section with tabs. Prime returns a high-rhythm three-card feature grid and a lower-rhythm tabbed asymmetric section.",
+      "expectedBehavior": [
+        "Send preferred groups, required tabs, layout, four-column asymmetric grid intent, and media placement through sectionIntent.",
+        "Reject candidates whose intentMatch status is mismatch even when uxScore is higher.",
+        "Inspect partial unknown evidence before selecting or adapting a candidate.",
+        "Record match, mismatch, and unknown diagnostics for credible candidates without invoking an LLM."
+      ]
+    },
+    {
+      "id": "section-only-existing-page",
+      "prompt": "Add only this Figma section between two existing sections on /product. The rest of the site, Header, Footer, and route composition are already complete.",
+      "expectedBehavior": [
+        "Classify the request as section-only and protect the existing route, shared shell, unrelated sections, and project structure.",
+        "Normalize and match only the selected Figma node, using insert or replace intent when surrounding Prime block identities are known.",
+        "Create or adapt one focused section component and add only its minimal import, data, and JSX placement.",
+        "Verify the section crop, responsive behavior, interactions, and adjacent boundaries without scaffolding or rewriting the page."
       ]
     },
     {
