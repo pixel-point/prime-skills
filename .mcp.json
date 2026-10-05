@@ -3,7 +3,8 @@
     "primeui": {
       "type": "stdio",
       "command": "node",
-      "args": ["./runtime/mcp/service.js"]
+      "args": ["./runtime/mcp/service.js"],
+      "cwd": "."
     }
   }
 }

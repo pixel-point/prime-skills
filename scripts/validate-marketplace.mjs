@@ -187,6 +187,10 @@ async function validateMcp(pluginRoot, manifest) {
     "Prime MCP arguments must resolve the bundled runtime",
   );
   invariant(
+    primeui.cwd === ".",
+    "Prime MCP must resolve its bundled runtime from the plugin root",
+  );
+  invariant(
     !("env" in primeui),
     "Prime MCP marketplace configuration must not embed credentials",
   );
