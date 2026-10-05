@@ -1,6 +1,6 @@
 {
   "name": "@primeuicom/skills-marketplace",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -11,6 +11,8 @@
     "lint": "pnpm run validate",
     "release:check": "node ./scripts/verify-release-version.mjs",
     "release:prepare": "node ./scripts/set-version.mjs",
+    "sync:mcp": "node ./scripts/sync-mcp-runtime.mjs",
+    "sync:mcp:check": "node ./scripts/sync-mcp-runtime.mjs --check",
     "sync:visual-audit": "node ./scripts/sync-visual-audit.mjs",
     "sync:visual-audit:check": "node ./scripts/sync-visual-audit.mjs --check",
     "sync:manifest-version": "node ./scripts/sync-manifest-version.mjs",

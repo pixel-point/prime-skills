@@ -7,7 +7,7 @@ The repository is developed inside the Prime monorepo and published to the publi
 ## What It Provides
 
 - An installable `prime` plugin for Codex-compatible plugin marketplaces.
-- Project-local access to the existing `@primeuicom/mcp` server.
+- A self-contained Prime MCP runtime and component-picker UI that do not depend on `npx` or the user's npm cache at startup.
 - Prime page-building guidance without requiring manual component-catalog browsing.
 - Template-driven blog, legal, docs, pricing, contact, and landing page workflows that do not require Figma.
 - A local-first Figma-to-Prime workflow with `reuse`, `adapt`, and `custom` matching.
@@ -153,6 +153,13 @@ Build and synchronize the deterministic visual-audit runtime bundled with the pl
 ```bash
 pnpm --filter @primeuicom/visual-audit build
 pnpm --filter @primeuicom/skills-marketplace sync:visual-audit
+```
+
+Build and synchronize the self-contained Prime MCP runtime bundled with the plugin:
+
+```bash
+pnpm --filter @primeuicom/mcp build
+pnpm --filter @primeuicom/skills-marketplace sync:mcp
 ```
 
 `@primeuicom/agent-setup` intentionally keeps only project baseline instructions, MCP configuration, `git-commit`, and `tailwind-design-system`. Prime page-building, Figma, component-authoring, and visual-parity workflows are installed separately through this marketplace.

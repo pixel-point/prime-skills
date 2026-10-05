@@ -2,8 +2,8 @@
   "mcpServers": {
     "primeui": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@primeuicom/mcp@latest"]
+      "command": "node",
+      "args": ["./runtime/mcp/service.js"]
     }
   }
 }

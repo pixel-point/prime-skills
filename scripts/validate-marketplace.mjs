@@ -180,11 +180,11 @@ async function validateMcp(pluginRoot, manifest) {
   const primeui = mcp.mcpServers?.primeui;
 
   invariant(primeui?.type === "stdio", "Prime MCP must use stdio transport");
-  invariant(primeui.command === "npx", "Prime MCP must run through npx");
+  invariant(primeui.command === "node", "Prime MCP must run through Node.js");
   invariant(
     Array.isArray(primeui.args) &&
-      primeui.args.join("\0") === ["-y", "@primeuicom/mcp@latest"].join("\0"),
-    "Prime MCP arguments must resolve @primeuicom/mcp@latest",
+      primeui.args.join("\0") === ["./runtime/mcp/service.js"].join("\0"),
+    "Prime MCP arguments must resolve the bundled runtime",
   );
   invariant(
     !("env" in primeui),
@@ -239,6 +239,40 @@ async function validateRuntime(pluginRoot) {
   invariant(
     stdout.includes("primeui-visual-audit --run-dir"),
     "Visual audit runtime help command must execute successfully",
+  );
+
+  const mcpRuntimePath = path.join(pluginRoot, "runtime", "mcp", "service.js");
+  const mcpRuntimeMapPath = path.join(
+    pluginRoot,
+    "runtime",
+    "mcp",
+    "service.js.map",
+  );
+  const mcpUiPath = path.join(
+    pluginRoot,
+    "runtime",
+    "mcp",
+    "ui",
+    "component-picker.html",
+  );
+  const mcpPackagePath = path.join(pluginRoot, "runtime", "package.json");
+  await assertFile(mcpRuntimePath, "Prime MCP runtime");
+  await assertFile(mcpRuntimeMapPath, "Prime MCP source map");
+  await assertFile(mcpUiPath, "Prime MCP App UI");
+  await assertFile(mcpPackagePath, "Prime MCP package metadata");
+
+  const mcpPackage = await readJson(mcpPackagePath);
+  invariant(
+    mcpPackage.name === "@primeuicom/mcp",
+    "Bundled Prime MCP metadata must identify @primeuicom/mcp",
+  );
+  const { stdout: mcpVersion } = await execFile(process.execPath, [
+    mcpRuntimePath,
+    "--version",
+  ]);
+  invariant(
+    mcpVersion.trim() === mcpPackage.version,
+    "Bundled Prime MCP runtime version must match its package metadata",
   );
 }
 
