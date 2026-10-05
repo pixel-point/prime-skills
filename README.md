@@ -14,6 +14,7 @@ The repository is developed inside the Prime monorepo and published to the publi
 - Deterministic section-intent matching for full-page and single-section Figma work.
 - Replaceable Prime media placeholders for unapproved Figma raster assets.
 - Prime-conformant local component authoring when no suitable registry component exists.
+- A read-only component picker beside the conversation for comparing reviewed candidates and browsing the compatible Prime catalog.
 - Deterministic Figma/browser measurements, overlays, diffs, and bounded automatic correction passes.
 
 The current public preview contains the marketplace foundation, the `primeui-page-builder` workflow, template-driven standard page delivery, Figma orchestration guidance, design and match contracts, custom component authoring rules, and a bundled machine-owned visual parity runtime. The runtime compares exact measurements and aligned PNG captures, masks only approved pending-media pixels, and prevents prose from overriding a blocking result.

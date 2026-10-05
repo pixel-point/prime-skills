@@ -86,6 +86,8 @@ When more than one group could fit the structural signature, include every plaus
 
 Reject a candidate even with a high score when its grid, card spans, media-to-copy order, caption structure, or control anatomy conflicts with the source. Record credible rejected candidates and blocking differences. If no candidate is structurally compatible, use the custom authoring path instead of stretching the closest score.
 
+When multiple credible candidates remain or the user requests visual review, read and follow [visual component selection](references/component-picker.md). The picker supplements structural review; it does not replace mismatch rejection, props validation, or component delivery.
+
 ## Props Authoring And Validation
 
 Author props from user context, local copy/content conventions, candidate metadata, `defaultProps`, `compactSchema`, and `jsonSchema`.

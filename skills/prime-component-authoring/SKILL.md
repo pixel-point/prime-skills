@@ -19,6 +19,8 @@ Use this workflow only after:
 
 If an existing Prime component fits without structural changes, return to the `reuse` path instead of creating another component.
 
+If visual browsing confirms that every candidate has a blocking anatomy mismatch, keep the section on the `adapt` or `custom` path. Do not force a picker selection into `reuse` merely because the user preferred its appearance.
+
 ## Build The Reference Pack
 
 Read [reference pack](references/reference-pack.md) before collecting examples.

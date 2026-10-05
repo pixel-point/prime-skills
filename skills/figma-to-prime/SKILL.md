@@ -34,6 +34,8 @@ Do not call Prime page or variant mutation tools. Candidate retrieval, validatio
 
 For every section, pass its semantic role, layout, grid topology, media placement, content order, and interactions through `sectionIntent`. Reject `intentMatch.status: "mismatch"` and review every `partial` unknown. Numeric rank cannot override structural incompatibility.
 
+When two or more compatible candidates remain, route the reviewed shortlist through the `primeui-page-builder` visual component picker. A visual choice cannot override a blocking structural mismatch; record any explicit user override as `adapt` or `custom`, not `reuse`.
+
 Record selected and credible rejected candidates, blocking differences, reference identities, props, rationale, and target paths. For `reuse`, complete prop validation and component delivery. For `adapt` or `custom`, record the Prime reference pack that grounds the local implementation.
 
 ## Final Claims

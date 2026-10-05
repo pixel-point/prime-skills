@@ -214,6 +214,16 @@
       ]
     },
     {
+      "id": "visual-picker-blocking-override",
+      "prompt": "The component picker shows a visually attractive Prime component, but its grid and interaction anatomy mismatch the supplied Figma section. I clicked it because I like the look.",
+      "expectedBehavior": [
+        "Preserve the recorded blocking structural mismatch after visual selection.",
+        "Do not classify the selected component as reuse.",
+        "Use it only as an adapt or custom reference when that remains technically sound.",
+        "Record the explicit visual preference and the incompatible anatomy in MatchPlan."
+      ]
+    },
+    {
       "id": "section-only-existing-page",
       "prompt": "Add only this Figma section between two existing sections on /product. The rest of the site, Header, Footer, and route composition are already complete.",
       "expectedBehavior": [

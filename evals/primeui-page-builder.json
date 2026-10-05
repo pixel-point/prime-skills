@@ -72,6 +72,35 @@
         "Use known surrounding Prime component ids only when they can be represented truthfully; otherwise plan with an empty blocks list.",
         "Stop after the focused section and its minimal route insertion are implemented and verified."
       ]
+    },
+    {
+      "id": "visual-picker-multiple-candidates",
+      "prompt": "Prime returns three structurally compatible feature-section candidates. Show them to me and let me choose before implementation.",
+      "expectedBehavior": [
+        "Reject blocking mismatches before opening the picker.",
+        "Call component_picker_open with the reviewed candidate ids in ranking order.",
+        "Wait for explicit panel confirmation before props validation and delivery.",
+        "Treat confirmation as component selection only, not file overwrite or publication authority."
+      ]
+    },
+    {
+      "id": "visual-picker-headless-fallback",
+      "prompt": "Help me choose between the compatible Prime candidates, but this MCP client cannot display Apps UI.",
+      "expectedBehavior": [
+        "Keep the component_candidates_get result useful without UI.",
+        "Present reviewed candidate ids and structural evidence in chat.",
+        "Ask the user to choose in chat and then continue the same validation and delivery workflow.",
+        "Do not describe the missing panel as a failed component search."
+      ]
+    },
+    {
+      "id": "visual-picker-single-exact-candidate",
+      "prompt": "Implement this section through Prime. Exactly one candidate fully matches and I did not ask to browse components.",
+      "expectedBehavior": [
+        "Continue with the one exact compatible candidate without forcing the picker open.",
+        "Validate props and use the normal delivery toolchain.",
+        "Open the picker only if the user explicitly asks for visual review."
+      ]
     }
   ]
 }

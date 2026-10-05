@@ -59,6 +59,7 @@ const expectedEvalCases = [
   "tailwind-token-first",
   "unrelated-figma-write",
   "visible-controls-must-work",
+  "visual-picker-blocking-override",
   "wrong-visual-crop",
 ];
 const expectedPageBuilderEvalCases = [
@@ -69,6 +70,9 @@ const expectedPageBuilderEvalCases = [
   "template-legal-defaults",
   "template-local-conflict",
   "template-slug-collision",
+  "visual-picker-headless-fallback",
+  "visual-picker-multiple-candidates",
+  "visual-picker-single-exact-candidate",
 ];
 const primeLogoSha256 =
   "7419807b8c62c99c6a91308559884afcd279bccadbfde2894b5a8e0fb9851530";

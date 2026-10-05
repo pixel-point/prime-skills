@@ -1,7 +1,7 @@
 {
   "name": "prime",
-  "version": "0.2.0+codex.20260904195611",
-  "description": "Build and visually audit local pages from Prime templates or Figma using Prime implementation rules.",
+  "version": "0.3.0+codex.20261005220752",
+  "description": "Build, visually select, and audit local pages from Prime templates or Figma.",
   "author": {
     "name": "Pixel Point",
     "email": "info@pixelpoint.io",
