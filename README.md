@@ -122,7 +122,7 @@ npx @primeuicom/cli setup --ai-preset codex
 - In an existing Next.js project, setup adds only the Prime binding and project-local agent setup; it does not replace application files.
 - In any other non-empty directory, setup stops before writing and asks the user to choose a safe target.
 
-When no organization profile exists, interactive setup asks for email and organization name, sends the verification email, accepts the emailed command in a masked terminal prompt, and resumes automatically. A non-interactive local chat may pass `--email` and `--organization-name` to send the email, then asks the user to run the secret command locally before retrying. The plugin never asks for bootstrap secrets in chat and does not require Prime Studio or GitHub OAuth.
+When no matching organization profile exists, setup opens browser login and waits for the user to sign in or register, compare the displayed code, choose an organization and approve. This works in both interactive terminals and local coding-agent chats. The agent shows the verification URL and pairing code, never approves on the user's behalf, and keeps the CLI process alive so setup can resume automatically. No secrets are copied into chat. `npx @primeuicom/cli login --no-open` supports remote/headless terminals. Existing profiles and legacy email commands remain compatible.
 
 ## Development
 

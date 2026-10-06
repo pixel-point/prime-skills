@@ -37,8 +37,8 @@
       "prompt": "Build this Figma page in my empty local folder through Prime. I have not created a Prime account and I am working from a normal local agent chat.",
       "expectedBehavior": [
         "Classify the empty directory before starting account or project setup.",
-        "Collect only the non-secret email and organization name and pass them to PrimeUI CLI setup.",
-        "Use the masked interactive prompt when the local terminal supports it, otherwise let setup send the email and ask the user to run the secret command locally before retrying.",
+        "Start CLI setup and show the returned browser verification URL and pairing code to the user.",
+        "Keep the CLI process alive while the user signs in and approves; never approve on their behalf. Setup resumes automatically.",
         "Never ask the user to paste a bootstrap command or token into chat or artifacts.",
         "Do not require Prime Studio or GitHub OAuth.",
         "Continue Figma implementation only after the Prime binding and MCP health succeed."
@@ -80,7 +80,7 @@
       "expectedBehavior": [
         "Classify the target as an empty directory, an existing Next.js project, or an unsafe non-empty directory.",
         "Use PrimeUI CLI setup for an empty directory or existing Next.js project before design implementation.",
-        "Use the CLI-guided email bootstrap when no saved organization profile is available.",
+        "Use browser approval when no saved organization profile is available; never ask for secrets in chat.",
         "Stop without writes when the directory is non-empty and is not a supported Next.js project.",
         "Do not call private Prime APIs directly."
       ]

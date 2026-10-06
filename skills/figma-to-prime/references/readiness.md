@@ -20,7 +20,7 @@ Check for `.primeui/project.json` at the target root.
 
 Pass an explicit project slug, organization, or project root only when folder-derived resolution is ambiguous. Do not silently reuse an existing remote Prime project when the local folder is unlinked; setup must require an explicit reuse decision.
 
-Interactive first-time setup may collect email and organization name, send verification, accept the emailed command through a masked terminal prompt, and resume. In non-interactive chat, collect only non-secret identity fields and ask the user to run the secret command locally. Never put bootstrap secrets in chat or artifacts.
+First-time setup opens browser authentication and waits for the user's explicit approval. In a local agent terminal, show the verification URL and pairing code and keep the process alive; credentials are returned directly to the CLI and setup resumes. The user signs in/registers, compares the code and selects the organization. Never approve on their behalf or request secrets in chat. Use `npx @primeuicom/cli login --no-open` when a browser cannot be launched. Existing profiles are reused.
 
 ## Request and route contract
 
