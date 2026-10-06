@@ -28701,7 +28701,7 @@ var EMPTY_COMPLETION_RESULT = {
 };
 
 // src/ui/component-picker-contract.ts
-var COMPONENT_PICKER_RESOURCE_URI = "ui://prime/component-picker/v1.html";
+var COMPONENT_PICKER_RESOURCE_URI = "ui://prime/component-picker/v2.html";
 
 // src/instructions.ts
 var pageSchema = external_exports.object({
@@ -30357,8 +30357,7 @@ AFTER CALLING:
     ui: {
       resourceUri: COMPONENT_PICKER_RESOURCE_URI,
       visibility: ["model", "app"]
-    },
-    "openai/ui": { entrypoints: [{ type: "thread" }] }
+    }
   }
 };
 var toolComponentCatalogQuery = {
